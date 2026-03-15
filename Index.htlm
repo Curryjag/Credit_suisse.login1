@@ -1295,7 +1295,7 @@ function nextTransferStep() {
   }
 }
 
-              // Hardcoded COT code
+// Hardcoded COT code
 const encodedCOT = btoa("COT-884219");
 
 function finalizeTransfer() {
