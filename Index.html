@@ -1566,7 +1566,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('dashboard').classList.remove('hidden');
       document.getElementById('topbarUser').classList.remove('hidden');
       updateBalanceDisplay();
-
       const lastSection = localStorage.getItem(LAST_SECTION_KEY) || 'overview';
       showSection(lastSection);
     }
@@ -1593,6 +1592,20 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem(LAST_SECTION_KEY, id);
     originalShowSection(id);
   };
+
+  // ================= TRANSACTION PERSISTENCE =================
+  function addTransaction(date, description, amount) {
+    const tbody = document.getElementById('transactionTableBody');
+    if (!tbody) return;
+
+    // Create new row
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${date}</td><td>${description}</td><td>${amount}</td>`;
+    tbody.appendChild(tr);
+
+    // Save updated table to localStorage
+    localStorage.setItem('transactionHistory', tbody.innerHTML);
+  }
 </script>
 </body>
 </html>
