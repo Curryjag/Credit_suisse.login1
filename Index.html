@@ -984,7 +984,7 @@ const loadingInterval = setInterval(() => {
   }
   }
 
-let accountBalance = 37571257.31;
+let accountBalance = parseFloat(localStorage.getItem('accountBalance')) || 37571257.31;
 
 function updateBalanceDisplay() {
   document.getElementById('balanceDisplay').textContent =
