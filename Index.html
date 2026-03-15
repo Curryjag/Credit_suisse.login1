@@ -1608,6 +1608,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(box => box.checked = false);
   }
 });
+
+  function loadTransactions() {
+  const tbody = document.getElementById('transactionTableBody');
+  const saved = localStorage.getItem('transactionHistory');
+  if (saved && tbody) {
+    tbody.innerHTML = saved;
+  }
+}
+
+// Call this when the dashboard is first shown
+document.addEventListener('DOMContentLoaded', () => {
+  loadTransactions();
+  // other init functions like renderSecurityEvents(), updateBalanceDisplay(), etc.
+});
 </script>
 </body>
 </html>
