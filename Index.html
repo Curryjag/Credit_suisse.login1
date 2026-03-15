@@ -987,6 +987,16 @@ const loadingInterval = setInterval(() => {
 let accountBalance = parseFloat(localStorage.getItem('accountBalance')) || 37571257.31;
 
 function updateBalanceDisplay() {
+
+  localStorage.setItem('accountBalance', accountBalance);
+
+  document.getElementById('balanceDisplay').textContent =
+    'CHF ' + accountBalance.toLocaleString(undefined, {
+      minimumFractionDigits: 2
+    });
+
+  }
+  
   document.getElementById('balanceDisplay').textContent =
     'CHF ' + accountBalance.toLocaleString(undefined, {
       minimumFractionDigits: 2
