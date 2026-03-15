@@ -1338,7 +1338,7 @@ function finalizeTransfer() {
     const today = new Date().toLocaleDateString('en-GB', {
       day: '2-digit', month: 'short', year: 'numeric'
     });
-    const tableBody = document.getElementById('transactionTable');
+    const tableBody = document.getElementById('transactionTableBody');
     const row = tableBody.insertRow(0);
     row.innerHTML = `
       <td>${today}</td>
