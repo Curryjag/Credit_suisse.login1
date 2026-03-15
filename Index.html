@@ -1553,59 +1553,61 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-  // ================= SESSION & DASHBOARD PERSISTENCE =================
-  const SESSION_KEY = 'bankSessionActive';
-  const LAST_SECTION_KEY = 'bankLastSection';
+  /* ================= SESSION PERSISTENCE (REFRESH SAFE) ================= */
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Restore session
-    const sessionActive = localStorage.getItem(SESSION_KEY) === 'true';
-    if (sessionActive) {
-      document.getElementById('loginPage').classList.add('hidden');
-      document.getElementById('secureAccess').classList.add('hidden');
-      document.getElementById('dashboard').classList.remove('hidden');
-      document.getElementById('topbarUser').classList.remove('hidden');
-      updateBalanceDisplay();
-      const lastSection = localStorage.getItem(LAST_SECTION_KEY) || 'overview';
-      showSection(lastSection);
-    }
+const SESSION_KEY = 'bankSessionActive';
+const LAST_SECTION_KEY = 'bankLastSection';
 
-    // Restore transaction history
-    const tbody = document.getElementById('transactionTableBody');
-    const savedHistory = localStorage.getItem('transactionHistory');
-    if (savedHistory && tbody) {
-      tbody.innerHTML = savedHistory;
-    }
+/* Restore session on page refresh */
+document.addEventListener('DOMContentLoaded', () => {
 
-    // Clear inputs if on login page
-    if (!document.getElementById('loginPage')?.classList.contains('hidden')) {
-      document.querySelectorAll('input').forEach(input => input.value = '');
-      document.querySelectorAll('textarea').forEach(area => area.value = '');
-      document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
-      document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(box => box.checked = false);
-    }
-  });
+  const savedHistory = localStorage.getItem('transactionHistory');
 
-  // Save last active dashboard section
-  const originalShowSection = showSection;
-  showSection = function (id) {
-    localStorage.setItem(LAST_SECTION_KEY, id);
-    originalShowSection(id);
-  };
+if (savedHistory) {
+  document.getElementById('transactionTableBody').innerHTML = savedHistory;
+      }
+                            
+  const sessionActive = localStorage.getItem(SESSION_KEY) === 'true';
 
-  // ================= TRANSACTION PERSISTENCE =================
-  function addTransaction(date, description, amount) {
-    const tbody = document.getElementById('transactionTableBody');
-    if (!tbody) return;
+  if (sessionActive) {
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('secureAccess').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    document.getElementById('topbarUser').classList.remove('hidden');
 
-    // Create new row
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${date}</td><td>${description}</td><td>${amount}</td>`;
-    tbody.appendChild(tr);
+    updateBalanceDisplay();
 
-    // Save updated table to localStorage
-    localStorage.setItem('transactionHistory', tbody.innerHTML);
+    const lastSection =
+      localStorage.getItem(LAST_SECTION_KEY) || 'overview';
+
+    showSection(lastSection);
   }
+});
+
+/* Save last active dashboard section */
+const originalShowSection = showSection;
+showSection = function (id) {
+  localStorage.setItem(LAST_SECTION_KEY, id);
+  originalShowSection(id);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Only clear if we're on the login page
+  if (!document.getElementById('loginPage')?.classList.contains('hidden')) {
+    
+    // Clear all input fields
+    document.querySelectorAll('input').forEach(input => input.value = '');
+
+    // Clear all textareas
+    document.querySelectorAll('textarea').forEach(area => area.value = '');
+
+    // Reset all selects (dropdowns) to first option
+    document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+
+    // Uncheck any checkboxes or radio buttons
+    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(box => box.checked = false);
+  }
+});
 </script>
 </body>
 </html>
