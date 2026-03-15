@@ -1341,6 +1341,9 @@ function finalizeTransfer() {
       <td>- CHF ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
     `;
 
+    localStorage.setItem('transactionHistory', document.getElementById('transactionTableBody').innerHTML);
+    
+
     // Show success message banner
     showTransferMessage("Transfer completed successfully.", "success", 2500);
 
