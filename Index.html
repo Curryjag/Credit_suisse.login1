@@ -1553,78 +1553,46 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* ================= SESSION PERSISTENCE (REFRESH SAFE) ================= */
+  // ================= SESSION & DASHBOARD PERSISTENCE =================
+  const SESSION_KEY = 'bankSessionActive';
+  const LAST_SECTION_KEY = 'bankLastSection';
 
-const SESSION_KEY = 'bankSessionActive';
-const LAST_SECTION_KEY = 'bankLastSection';
-
-/* Restore session on page refresh */
-document.addEventListener('DOMContentLoaded', () => {
-
-  const savedHistory = localStorage.getItem('transactionHistory');
-
-if (savedHistory) {
-  document.getElementById('transactionTableBody').innerHTML = savedHistory;
-      }
-                            
-  const sessionActive = localStorage.getItem(SESSION_KEY) === 'true';
-
-  if (sessionActive) {
-    document.getElementById('loginPage').classList.add('hidden');
-    document.getElementById('secureAccess').classList.add('hidden');
-    document.getElementById('dashboard').classList.remove('hidden');
-    document.getElementById('topbarUser').classList.remove('hidden');
-
-    updateBalanceDisplay();
-
-    const lastSection =
-      localStorage.getItem(LAST_SECTION_KEY) || 'overview';
-
-    showSection(lastSection);
-  }
-});
-
-/* Save last active dashboard section */
-const originalShowSection = showSection;
-showSection = function (id) {
-  localStorage.setItem(LAST_SECTION_KEY, id);
-  originalShowSection(id);
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Only clear if we're on the login page
-  if (!document.getElementById('loginPage')?.classList.contains('hidden')) {
-    
-    // Clear all input fields
-    document.querySelectorAll('input').forEach(input => input.value = '');
-
-    // Clear all textareas
-    document.querySelectorAll('textarea').forEach(area => area.value = '');
-
-    // Reset all selects (dropdowns) to first option
-    document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
-
-    // Uncheck any checkboxes or radio buttons
-    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(box => box.checked = false);
-  }
-});
-  
-  // ================= TRANSACTION HISTORY PERSISTENCE =================
-  function loadTransactions() {
-    const tbody = document.getElementById('transactionTableBody');
-    const saved = localStorage.getItem('transactionHistory');
-    if (saved && tbody) {
-      tbody.innerHTML = saved;
-    }
-  }
-
-  // Call this once the dashboard is loaded
   document.addEventListener('DOMContentLoaded', () => {
-    loadTransactions(); // load transaction history
-    // other init functions can go here, e.g.:
-    // renderSecurityEvents();
-    // updateBalanceDisplay();
+    // Restore session
+    const sessionActive = localStorage.getItem(SESSION_KEY) === 'true';
+    if (sessionActive) {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('secureAccess').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      document.getElementById('topbarUser').classList.remove('hidden');
+      updateBalanceDisplay();
+
+      const lastSection = localStorage.getItem(LAST_SECTION_KEY) || 'overview';
+      showSection(lastSection);
+    }
+
+    // Restore transaction history
+    const tbody = document.getElementById('transactionTableBody');
+    const savedHistory = localStorage.getItem('transactionHistory');
+    if (savedHistory && tbody) {
+      tbody.innerHTML = savedHistory;
+    }
+
+    // Clear inputs if on login page
+    if (!document.getElementById('loginPage')?.classList.contains('hidden')) {
+      document.querySelectorAll('input').forEach(input => input.value = '');
+      document.querySelectorAll('textarea').forEach(area => area.value = '');
+      document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+      document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(box => box.checked = false);
+    }
   });
+
+  // Save last active dashboard section
+  const originalShowSection = showSection;
+  showSection = function (id) {
+    localStorage.setItem(LAST_SECTION_KEY, id);
+    originalShowSection(id);
+  };
 </script>
 </body>
 </html>
