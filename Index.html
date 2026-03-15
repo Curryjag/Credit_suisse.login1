@@ -1608,20 +1608,23 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(box => box.checked = false);
   }
 });
-
+  
+  // ================= TRANSACTION HISTORY PERSISTENCE =================
   function loadTransactions() {
-  const tbody = document.getElementById('transactionTableBody');
-  const saved = localStorage.getItem('transactionHistory');
-  if (saved && tbody) {
-    tbody.innerHTML = saved;
+    const tbody = document.getElementById('transactionTableBody');
+    const saved = localStorage.getItem('transactionHistory');
+    if (saved && tbody) {
+      tbody.innerHTML = saved;
+    }
   }
-}
 
-// Call this when the dashboard is first shown
-document.addEventListener('DOMContentLoaded', () => {
-  loadTransactions();
-  // other init functions like renderSecurityEvents(), updateBalanceDisplay(), etc.
-});
+  // Call this once the dashboard is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    loadTransactions(); // load transaction history
+    // other init functions can go here, e.g.:
+    // renderSecurityEvents();
+    // updateBalanceDisplay();
+  });
 </script>
 </body>
 </html>
