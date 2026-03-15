@@ -1555,6 +1555,13 @@ const LAST_SECTION_KEY = 'bankLastSection';
 
 /* Restore session on page refresh */
 document.addEventListener('DOMContentLoaded', () => {
+
+  const savedHistory = localStorage.getItem('transactionHistory');
+
+if (savedHistory) {
+  document.getElementById('transactionTableBody').innerHTML = savedHistory;
+      }
+                            
   const sessionActive = localStorage.getItem(SESSION_KEY) === 'true';
 
   if (sessionActive) {
