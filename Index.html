@@ -1696,6 +1696,58 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 document.addEventListener('DOMContentLoaded', loadTransactions);
+
+<script>
+  // Close modal function
+function closeModal() {
+  document.getElementById('transactionModal').style.display = 'none';
+}
+
+// Load transaction history from localStorage
+function loadTransactions() {
+  const saved = localStorage.getItem('transactionHistory');
+  const transactions = saved ? JSON.parse(saved) : [];
+  const tableBody = document.getElementById('transactionTableBody');
+  tableBody.innerHTML = '';
+
+  transactions.forEach(tx => {
+    const row = tableBody.insertRow();
+    row.innerHTML = `
+      <td>${tx.date}</td>
+      <td>${tx.description}</td>
+      <td>${tx.amount}</td>
+    `;
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => showTransactionDetails(tx));
+  });
+}
+
+// Show transaction details in modal
+function showTransactionDetails(tx) {
+  document.getElementById('detailDate').textContent = `Date: ${tx.date}`;
+  document.getElementById('detailDescription').textContent = `Description: ${tx.description}`;
+  document.getElementById('detailAmount').textContent = `Amount: ${tx.amount}`;
+  document.getElementById('detailReference').textContent = `Reference: ${tx.reference}`;
+  document.getElementById('detailStatus').textContent = `Status: ${tx.status}`;
+  document.getElementById('transactionModal').style.display = 'block';
+}
+
+// Add a new transaction
+function addTransaction(description, amount, status = 'Completed') {
+  const today = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  const reference = 'TXN' + Math.floor(Math.random() * 1e8);
+  const tx = { date: today, description, amount, reference, status };
+
+  const saved = localStorage.getItem('transactionHistory');
+  const transactions = saved ? JSON.parse(saved) : [];
+  transactions.unshift(tx);
+  localStorage.setItem('transactionHistory', JSON.stringify(transactions));
+
+  loadTransactions();
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', loadTransactions);
 </script>
 </body>
 </html>
