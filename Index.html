@@ -1663,6 +1663,7 @@ if (savedHistory) {
   }
 });
 
+<script>
 /* Save last active dashboard section */
 const originalShowSection = showSection;
 showSection = function (id) {
@@ -1670,45 +1671,26 @@ showSection = function (id) {
   originalShowSection(id);
 };
 
+// Clear login page inputs
 document.addEventListener('DOMContentLoaded', () => {
-  // Only clear if we're on the login page
   if (!document.getElementById('loginPage')?.classList.contains('hidden')) {
-    
-    // Clear all input fields
     document.querySelectorAll('input').forEach(input => input.value = '');
-
-    // Clear all textareas
     document.querySelectorAll('textarea').forEach(area => area.value = '');
-
-    // Reset all selects (dropdowns) to first option
     document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
-
-    // Uncheck any checkboxes or radio buttons
     document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(box => box.checked = false);
   }
 });
 
-  function loadTransactions() {
-  const saved = localStorage.getItem('transactionHistory');
-  if (saved) {
-    document.getElementById('transactionTableBody').innerHTML = saved;
-  }
-}
-
-document.addEventListener('DOMContentLoaded', loadTransactions);
-
-  
-  // Close modal function
+// Close modal
 function closeModal() {
   document.getElementById('transactionModal').style.display = 'none';
 }
 
-// Load transaction history from localStorage
+// Load new transactions from localStorage (keep old ones intact)
 function loadTransactions() {
   const saved = localStorage.getItem('transactionHistory');
   const transactions = saved ? JSON.parse(saved) : [];
   const tableBody = document.getElementById('transactionTableBody');
-  tableBody.innerHTML = '';
 
   transactions.forEach(tx => {
     const row = tableBody.insertRow();
@@ -1722,7 +1704,7 @@ function loadTransactions() {
   });
 }
 
-// Show transaction details in modal
+// Show transaction modal
 function showTransactionDetails(tx) {
   document.getElementById('detailDate').textContent = `Date: ${tx.date}`;
   document.getElementById('detailDescription').textContent = `Description: ${tx.description}`;
@@ -1737,16 +1719,16 @@ function addTransaction(description, amount, status = 'Completed') {
   const today = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
   const reference = 'TXN' + Math.floor(Math.random() * 1e8);
   const tx = { date: today, description, amount, reference, status };
-
+  
   const saved = localStorage.getItem('transactionHistory');
   const transactions = saved ? JSON.parse(saved) : [];
   transactions.unshift(tx);
   localStorage.setItem('transactionHistory', JSON.stringify(transactions));
-
+  
   loadTransactions();
 }
 
-// Initialize on page load
+// Initialize new transactions on page load
 document.addEventListener('DOMContentLoaded', loadTransactions);
 </script>
 </body>
