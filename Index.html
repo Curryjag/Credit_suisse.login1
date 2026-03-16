@@ -1417,13 +1417,15 @@ function finalizeTransfer() {
     const today = new Date().toLocaleDateString('en-GB', {
       day: '2-digit', month: 'short', year: 'numeric'
     });
+    
     const tableBody = document.getElementById('transactionTableBody');
-    const row = tableBody.insertRow(0);
-    row.innerHTML = `
-      <td>${today}</td>
-      <td>Transfer to ${beneficiary}</td>
-      <td>- CHF ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-    `;
+addTransactionRow(
+  today,
+  `Transfer to ${beneficiary}`,
+  `- CHF ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
+  'REF-' + Math.floor(Math.random()*1000000), // Example reference
+  'Completed' // Status
+);
 
     localStorage.setItem('transactionHistory', document.getElementById('transactionTableBody').innerHTML);
     
