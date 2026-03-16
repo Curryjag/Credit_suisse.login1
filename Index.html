@@ -1448,9 +1448,20 @@ addTransactionRow(
   'Completed' // Status
 );
 
-    localStorage.setItem('transactionHistory', document.getElementById('transactionTableBody').innerHTML);
-    
+    const saved = localStorage.getItem('transactions');
+const transactions = saved ? JSON.parse(saved) : [];
 
+transactions.unshift({
+  date: today,
+  description: `Transfer to ${beneficiary}`,
+  amount: `- CHF ${amount.toLocaleString(undefined,{minimumFractionDigits:2})}`,
+  reference: 'REF-' + Math.floor(Math.random()*1000000),
+  status: 'Completed'
+});
+
+localStorage.setItem('transactions', JSON.stringify(transactions));
+    
+    
     // Show success message banner
     showTransferMessage("Transfer completed successfully.", "success", 2500);
 
