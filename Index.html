@@ -1078,6 +1078,27 @@ function updateBalanceDisplay() {
       minimumFractionDigits: 2
     });
 }
+
+  function addTransactionRow(date, description, amount, reference, status) {
+  const tableBody = document.getElementById('transactionTableBody');
+  const row = tableBody.insertRow(0); // add at top
+  row.innerHTML = `
+    <td>${date}</td>
+    <td>${description}</td>
+    <td>${amount}</td>
+  `;
+  row.style.cursor = 'pointer';
+
+  // Attach click handler to show full modal
+  row.onclick = () => {
+    document.getElementById('detailDate').textContent = `Date: ${date}`;
+    document.getElementById('detailDescription').textContent = `Description: ${description}`;
+    document.getElementById('detailAmount').textContent = `Amount: ${amount}`;
+    document.getElementById('detailReference').textContent = `Reference: ${reference}`;
+    document.getElementById('detailStatus').textContent = `Status: ${status}`;
+    document.getElementById('transactionModal').style.display = 'block';
+  };
+    }
  
 
 function changePassword() {
