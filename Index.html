@@ -1821,6 +1821,25 @@ function closeModal() {
 
 // Attach on DOM ready
 document.addEventListener('DOMContentLoaded', loadTransactions);
+
+  function loadSavedTransactions() {
+  const saved = localStorage.getItem('transactions');
+  if (!saved) return;
+
+  const transactions = JSON.parse(saved);
+
+  transactions.forEach(tx => {
+    addTransactionRow(
+      tx.date,
+      tx.description,
+      tx.amount,
+      tx.reference,
+      tx.status
+    );
+  });
+}
+
+document.addEventListener('DOMContentLoaded', loadSavedTransactions);
 </script>
 </body>
 </html>
