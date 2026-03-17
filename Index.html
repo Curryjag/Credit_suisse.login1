@@ -615,13 +615,15 @@ button:active {
 }
 /* Fade-in effect for modal */
 .modal {
-  opacity: 0; /* start invisible */
-  transition: opacity 0.5s ease; /* smooth fade */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;   /* 👈 ADD THIS */
 }
 
 .modal.show {
   display: block;
   opacity: 1;
+  pointer-events: auto;   /* 👈 ADD THIS */
 }
 </style>
 </head>
