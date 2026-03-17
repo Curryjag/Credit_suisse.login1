@@ -842,17 +842,20 @@ button:active {
 <!-- Transaction Modal -->
 <div id="transactionModal" class="modal">
   <div class="modal-content">
-    <img src="bank-logo.png" class="modal-logo" alt="Bank Logo">
-    <h3>Transaction Details</h3>
-    <p id="detailDate"></p>
-    <p id="detailDescription"></p>
-    <p id="detailAmount"></p>
-    <p id="detailReference"></p>
-    <p id="detailStatus"></p>
-    <button onclick="closeModal()">Close</button>
+    
+    <img src="https://res.cloudinary.com/do9yjpizs/image/upload/v1771185812/wn6e9zmpiinkjfeydgna.png" style="height:40px; margin-bottom:10px;">
+    
+    <h3 style="margin-bottom:20px;">Transaction Details</h3>
+
+    <div class="detail-row"><span>Date</span><span id="detailDate"></span></div>
+    <div class="detail-row"><span>Description</span><span id="detailDescription"></span></div>
+    <div class="detail-row"><span>Amount</span><span id="detailAmount"></span></div>
+    <div class="detail-row"><span>Reference</span><span id="detailReference"></span></div>
+    <div class="detail-row"><span>Status</span><span id="detailStatus"></span></div>
+
+    <button onclick="closeModal()" style="margin-top:20px;">Close</button>
   </div>
 </div>
-
 
     <!-- Investments -->
     <div id="investments" class="panel hidden">
