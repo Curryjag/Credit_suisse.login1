@@ -2014,6 +2014,36 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('transactionModal').style.display = 'block';
   });
 });
+
+  function loadRecentTransactions() {
+  const saved = localStorage.getItem('transactionHistory');
+  const transactions = saved ? JSON.parse(saved) : [];
+
+  const container = document.getElementById('recentTransactionsList');
+  container.innerHTML = '';
+
+  // Get only the latest 3
+  const recent = transactions.slice(0, 3);
+
+  recent.forEach(tx => {
+    const item = document.createElement('div');
+    item.className = 'transaction-item';
+
+    const isPositive = tx.amount.includes('+');
+
+    item.innerHTML = `
+      <div class="tx-left">
+        <span class="tx-date">${tx.date}</span>
+        <span class="tx-desc">${tx.description}</span>
+      </div>
+      <div class="tx-amount ${isPositive ? 'positive' : 'negative'}">
+        ${tx.amount}
+      </div>
+    `;
+
+    container.appendChild(item);
+  });
+  }
 </script>
 </body>
 </html>
