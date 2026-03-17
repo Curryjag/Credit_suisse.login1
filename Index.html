@@ -1745,7 +1745,7 @@ function closeModal() {
 
 /* ================= FIXED TRANSACTIONS HANDLING ================= */
 
-// Load transactions from localStorage and render rows
+// Load transactions and render rows
 function loadTransactions() {
   const saved = localStorage.getItem('transactionHistory');
   const transactions = saved ? JSON.parse(saved) : [];
@@ -1763,6 +1763,8 @@ function loadTransactions() {
       <td>${tx.date}</td>
       <td>${tx.description}</td>
       <td>${tx.amount}</td>
+      <td style="display:none">${tx.reference}</td>
+      <td style="display:none">${tx.status}</td>
     `;
 
     // Store transaction info in row's dataset for modal
@@ -1788,27 +1790,7 @@ function addTransaction(description, amount, status = 'Completed') {
   localStorage.setItem('transactionHistory', JSON.stringify(transactions));
 
   loadTransactions(); // render immediately
-}
-
-// Event delegation: click any transaction row to open modal
-document.addEventListener('DOMContentLoaded', () => {
-  const tableBody = document.getElementById('transactionTableBody');
-
-  tableBody.addEventListener('click', (e) => {
-    const row = e.target.closest('tr');
-    if (!row) return;
-
-    document.getElementById('detailDate').textContent = row.dataset.date || row.cells[0].textContent;
-    document.getElementById('detailDescription').textContent = row.dataset.description || row.cells[1].textContent;
-    document.getElementById('detailAmount').textContent = row.dataset.amount || row.cells[2].textContent;
-    document.getElementById('detailReference').textContent = row.dataset.reference || '';
-    document.getElementById('detailStatus').textContent = row.dataset.status || '';
-
-    document.getElementById('transactionModal').style.display = 'block';
-  });
-
-  loadTransactions(); // initialize table on page load
-});
+  }
   
 // Open modal with fade-in
 function openModal() {
