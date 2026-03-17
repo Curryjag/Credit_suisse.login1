@@ -1875,6 +1875,35 @@ document.addEventListener('DOMContentLoaded', loadTransactions);
 }
 
 document.addEventListener('DOMContentLoaded', loadSavedTransactions);
+
+  // Make all transaction rows clickable (existing + new ones)
+document.addEventListener('DOMContentLoaded', () => {
+  const tableBody = document.getElementById('transactionTableBody');
+
+  tableBody.addEventListener('click', (e) => {
+    const row = e.target.closest('tr');
+    if (!row) return;
+
+    // Grab data from row's dataset (or fallback to cells)
+    const tx = {
+      date: row.dataset.date || row.cells[0]?.textContent || '',
+      description: row.dataset.description || row.cells[1]?.textContent || '',
+      amount: row.dataset.amount || row.cells[2]?.textContent || '',
+      reference: row.dataset.reference || '',
+      status: row.dataset.status || ''
+    };
+
+    // Fill modal
+    document.getElementById('detailDate').textContent = tx.date;
+    document.getElementById('detailDescription').textContent = tx.description;
+    document.getElementById('detailAmount').textContent = tx.amount;
+    document.getElementById('detailReference').textContent = tx.reference;
+    document.getElementById('detailStatus').textContent = tx.status;
+
+    // Show modal
+    document.getElementById('transactionModal').style.display = 'block';
+  });
+});
 </script>
 </body>
 </html>
