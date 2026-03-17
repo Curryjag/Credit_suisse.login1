@@ -782,8 +782,20 @@ button:active {
       <div style="margin-top:auto;">
         <button onclick="showSection('payments')">Make a Transfer</button>
       </div>
-    </div>
 
+<div class="recent-transactions">
+  <h3>Recent Transactions</h3>
+
+  <div id="recentTransactionsList"></div>
+
+  <div class="view-all" onclick="goToTransactions()">
+    View all transactions →
+  </div>
+</div>
+
+ </div>
+</div>
+    
     <!-- Payments -->
     <div id="payments" class="panel hidden">
       <h2>Payments</h2>
