@@ -616,7 +616,7 @@ button:active {
 /* Fade-in effect for modal */
 .modal {
   opacity: 0; /* start invisible */
-  transition: opacity 0.3s ease; /* smooth fade */
+  transition: opacity 0.5s ease; /* smooth fade */
 }
 
 .modal.show {
@@ -1112,7 +1112,7 @@ function updateBalanceDisplay() {
   row.style.cursor = 'pointer';
 
   // Attach click handler to show full modal
-  row.onclick = () => {
+  row.addEventListener('click', () => {
     document.getElementById('detailDate').textContent = date;
     document.getElementById('detailDescription').textContent = description;
     document.getElementById('detailAmount').textContent = amount;
