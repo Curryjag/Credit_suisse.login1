@@ -576,25 +576,24 @@ button:active {
 }
 .modal-content {
   background: #fff;
-  padding: 20px;
-  max-width: 400px;
-  margin: 10% auto;
-  border-radius: 8px;
-  text-align: center;
-  position: relative;
+  margin: 8% auto;
+  padding: 25px;
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.2);
 }
-.modal-logo {
-  height: 50px;
-  margin-bottom: 10px;
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
 }
-.modal p {
-  margin: 5px 0;
-  font-size: 14px;
-}
-.modal p#detailAmount {
-  font-weight: bold;
-  color: red;
-}
+
+.detail-row span:first-child {
+  font-weight: 500;
+  color: #555;
+}  
 .modal button {
   margin-top: 10px;
   padding: 6px 14px;
