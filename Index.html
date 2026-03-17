@@ -1785,6 +1785,17 @@ function addTransaction(description, amount, status = 'Completed') {
 // Initialize new transactions on page load
 document.addEventListener('DOMContentLoaded', loadTransactions);
 
+// Open modal with fade-in
+function openModal() {
+  const modal = document.getElementById('transactionModal');
+  modal.classList.add('show'); // adds fade-in
+}
+
+// Close modal and remove fade-in
+function closeModal() {
+  const modal = document.getElementById('transactionModal');
+  modal.classList.remove('show'); // removes fade-in
+}
   
 // Key for localStorage
 const TRANSACTION_KEY = 'transactionHistory';
