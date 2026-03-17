@@ -1747,7 +1747,7 @@ function closeModal() {
 
 // Load transactions and render rows
 function loadTransactions() {
-  const saved = localStorage.getItem('transactionHistory');
+  const saved = localStorage.getItem('transactions');
   const transactions = saved ? JSON.parse(saved) : [];
   const tableBody = document.getElementById('transactionTableBody');
 
