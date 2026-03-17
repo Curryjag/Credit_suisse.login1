@@ -1763,10 +1763,13 @@ function loadTransactions() {
   const transactions = saved ? JSON.parse(saved) : [];
   const tableBody = document.getElementById('transactionTableBody');
 
-  // Keep existing static rows
-  const staticRows = Array.from(tableBody.querySelectorAll('tr'));
-  tableBody.innerHTML = '';
-  staticRows.forEach(row => tableBody.appendChild(row));
+  // Clear table before adding dynamic transactions
+tableBody.innerHTML = '';
+
+// Add all transactions from localStorage at the top
+transactions.forEach(tx => {
+  addTransactionRow(tx.date, tx.description, tx.amount, tx.reference, tx.status);
+});
 
   // Add transaction rows dynamically
   transactions.forEach(tx => {
