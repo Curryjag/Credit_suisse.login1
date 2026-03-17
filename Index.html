@@ -1771,6 +1771,26 @@ transactions.forEach(tx => {
   addTransactionRow(tx.date, tx.description, tx.amount, tx.reference, tx.status);
 });
 
+  // Add transaction rows dynamically  
+  transactions.forEach(tx => {  
+    const row = tableBody.insertRow(0);  
+    row.innerHTML = `  
+      <td>${tx.date}</td>  
+      <td>${tx.description}</td>  
+      <td>${tx.amount}</td>  
+    `;  
+  
+    // Store transaction info in row's dataset for modal  
+    row.dataset.date = tx.date;  
+    row.dataset.description = tx.description;  
+    row.dataset.amount = tx.amount;  
+    row.dataset.reference = tx.reference;  
+    row.dataset.status = tx.status;  
+  
+    row.style.cursor = 'pointer';  
+  });  
+}  
+
 // Add a new transaction
 function addTransaction(description, amount, status = 'Completed') {
   const today = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
