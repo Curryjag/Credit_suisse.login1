@@ -1112,7 +1112,7 @@ function updateBalanceDisplay() {
   row.style.cursor = 'pointer';
 
   // Attach click handler to show full modal
-  row.addEventListener('click', () => {
+  row.onclick = () => {
     document.getElementById('detailDate').textContent = date;
     document.getElementById('detailDescription').textContent = description;
     document.getElementById('detailAmount').textContent = amount;
