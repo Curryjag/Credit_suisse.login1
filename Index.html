@@ -1763,8 +1763,6 @@ function loadTransactions() {
       <td>${tx.date}</td>
       <td>${tx.description}</td>
       <td>${tx.amount}</td>
-      <td style="display:none">${tx.reference}</td>
-      <td style="display:none">${tx.status}</td>
     `;
 
     // Store transaction info in row's dataset for modal
@@ -1790,7 +1788,28 @@ function addTransaction(description, amount, status = 'Completed') {
   localStorage.setItem('transactionHistory', JSON.stringify(transactions));
 
   loadTransactions(); // render immediately
-  }
+}
+
+// Event delegation: click any transaction row to open modal
+document.addEventListener('DOMContentLoaded', () => {
+  const tableBody = document.getElementById('transactionTableBody');
+
+  tableBody.addEventListener('click', (e) => {
+    const row = e.target.closest('tr');
+    if (!row) return;
+
+    // Read directly from row.dataset
+    document.getElementById('detailDate').textContent = row.dataset.date;
+    document.getElementById('detailDescription').textContent = row.dataset.description;
+    document.getElementById('detailAmount').textContent = row.dataset.amount;
+    document.getElementById('detailReference').textContent = row.dataset.reference;
+    document.getElementById('detailStatus').textContent = row.dataset.status;
+
+    document.getElementById('transactionModal').style.display = 'block';
+  });
+
+  loadTransactions(); // initialize table on page load
+});
   
 // Open modal with fade-in
 function openModal() {
