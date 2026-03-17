@@ -1743,32 +1743,37 @@ function closeModal() {
   document.getElementById('transactionModal').style.display = 'none';
 }
 
-// Load new transactions from localStorage (keep old ones intact)
+/* ================= FIXED TRANSACTIONS HANDLING ================= */
+
+// Load transactions from localStorage and render rows
 function loadTransactions() {
   const saved = localStorage.getItem('transactionHistory');
   const transactions = saved ? JSON.parse(saved) : [];
   const tableBody = document.getElementById('transactionTableBody');
 
+  // Keep existing static rows
+  const staticRows = Array.from(tableBody.querySelectorAll('tr'));
+  tableBody.innerHTML = '';
+  staticRows.forEach(row => tableBody.appendChild(row));
+
+  // Add transaction rows dynamically
   transactions.forEach(tx => {
-    const row = tableBody.insertRow();
+    const row = tableBody.insertRow(0);
     row.innerHTML = `
       <td>${tx.date}</td>
       <td>${tx.description}</td>
       <td>${tx.amount}</td>
     `;
-    row.style.cursor = 'pointer';
-    row.addEventListener('click', () => showTransactionDetails(tx));
-  });
-}
 
-// Show transaction modal
-function showTransactionDetails(tx) {
-  document.getElementById('detailDate').textContent = `Date: ${tx.date}`;
-  document.getElementById('detailDescription').textContent = `Description: ${tx.description}`;
-  document.getElementById('detailAmount').textContent = `Amount: ${tx.amount}`;
-  document.getElementById('detailReference').textContent = `Reference: ${tx.reference}`;
-  document.getElementById('detailStatus').textContent = `Status: ${tx.status}`;
-  document.getElementById('transactionModal').style.display = 'block';
+    // Store transaction info in row's dataset for modal
+    row.dataset.date = tx.date;
+    row.dataset.description = tx.description;
+    row.dataset.amount = tx.amount;
+    row.dataset.reference = tx.reference;
+    row.dataset.status = tx.status;
+
+    row.style.cursor = 'pointer';
+  });
 }
 
 // Add a new transaction
@@ -1776,18 +1781,35 @@ function addTransaction(description, amount, status = 'Completed') {
   const today = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
   const reference = 'TXN' + Math.floor(Math.random() * 1e8);
   const tx = { date: today, description, amount, reference, status };
-  
+
   const saved = localStorage.getItem('transactionHistory');
   const transactions = saved ? JSON.parse(saved) : [];
   transactions.unshift(tx);
   localStorage.setItem('transactionHistory', JSON.stringify(transactions));
-  
-  loadTransactions();
+
+  loadTransactions(); // render immediately
 }
 
-// Initialize new transactions on page load
-document.addEventListener('DOMContentLoaded', loadTransactions);
+// Event delegation: click any transaction row to open modal
+document.addEventListener('DOMContentLoaded', () => {
+  const tableBody = document.getElementById('transactionTableBody');
 
+  tableBody.addEventListener('click', (e) => {
+    const row = e.target.closest('tr');
+    if (!row) return;
+
+    document.getElementById('detailDate').textContent = row.dataset.date || row.cells[0].textContent;
+    document.getElementById('detailDescription').textContent = row.dataset.description || row.cells[1].textContent;
+    document.getElementById('detailAmount').textContent = row.dataset.amount || row.cells[2].textContent;
+    document.getElementById('detailReference').textContent = row.dataset.reference || '';
+    document.getElementById('detailStatus').textContent = row.dataset.status || '';
+
+    document.getElementById('transactionModal').style.display = 'block';
+  });
+
+  loadTransactions(); // initialize table on page load
+});
+  
 // Open modal with fade-in
 function openModal() {
   const modal = document.getElementById('transactionModal');
