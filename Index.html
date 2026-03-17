@@ -576,13 +576,20 @@ button:active {
 }
 .modal-content {
   background: #fff;
-  margin: 8% auto;
-  padding: 25px;
-  width: 400px;
+  margin: 5% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 420px;
   border-radius: 10px;
   box-shadow: 0 5px 25px rgba(0,0,0,0.2);
 }
-
+@media (max-width: 480px) {
+  .modal-content {
+    margin: 0;
+    height: 100%;
+    border-radius: 0;
+  }
+}
 .detail-row {
   display: flex;
   justify-content: space-between;
