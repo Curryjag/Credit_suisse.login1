@@ -613,6 +613,15 @@ button:active {
 .modal button:hover {
   background: #0056b3;
 }
+/* Fade-in effect for modal */
+.modal {
+  opacity: 0; /* start invisible */
+  transition: opacity 0.3s ease; /* smooth fade */
+}
+
+.modal.show {
+  opacity: 1; /* fully visible when 'show' class added */
+}
 </style>
 </head>
 <body>
