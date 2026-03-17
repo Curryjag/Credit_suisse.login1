@@ -1105,25 +1105,25 @@ function updateBalanceDisplay() {
 
   function addTransactionRow(date, description, amount, reference, status) {
   const tableBody = document.getElementById('transactionTableBody');
-  const row = tableBody.insertRow(0);
-
+  const row = tableBody.insertRow(0); // add at top
   row.innerHTML = `
     <td>${date}</td>
     <td>${description}</td>
     <td>${amount}</td>
   `;
-
-  // ✅ STORE DATA PROPERLY (THIS FIXES YOUR ISSUE)
-  row.dataset.date = date;
-  row.dataset.description = description;
-  row.dataset.amount = amount;
-  row.dataset.reference = reference;
-  row.dataset.status = status;
-
   row.style.cursor = 'pointer';
-  }
- 
 
+  // Attach click handler to show full modal
+  row.onclick = () => {
+    document.getElementById('detailDate').textContent = date;
+    document.getElementById('detailDescription').textContent = description;
+    document.getElementById('detailAmount').textContent = amount;
+    document.getElementById('detailReference').textContent = reference;
+    document.getElementById('detailStatus').textContent = status;
+    openModal();
+  };
+  }
+  
 function changePassword() {
   const oldP = document.getElementById('oldPassword').value;
   const newP = document.getElementById('newPassword').value;
