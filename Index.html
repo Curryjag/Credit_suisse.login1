@@ -1094,11 +1094,11 @@ function updateBalanceDisplay() {
 
   // Attach click handler to show full modal
   row.onclick = () => {
-    document.getElementById('detailDate').textContent = `Date: ${date}`;
-    document.getElementById('detailDescription').textContent = `Description: ${description}`;
-    document.getElementById('detailAmount').textContent = `Amount: ${amount}`;
-    document.getElementById('detailReference').textContent = `Reference: ${reference}`;
-    document.getElementById('detailStatus').textContent = `Status: ${status}`;
+    document.getElementById('detailDate').textContent = date;
+    document.getElementById('detailDescription').textContent = description;
+    document.getElementById('detailAmount').textContent = amount;
+    document.getElementById('detailReference').textContent = reference;
+    document.getElementById('detailStatus').textContent = status;
     document.getElementById('transactionModal').style.display = 'block';
   };
     }
