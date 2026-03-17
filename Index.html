@@ -1106,23 +1106,33 @@ function updateBalanceDisplay() {
   function addTransactionRow(date, description, amount, reference, status) {
   const tableBody = document.getElementById('transactionTableBody');
   const row = tableBody.insertRow(0); // add at top
+
+  // Render only visible cells
   row.innerHTML = `
     <td>${date}</td>
     <td>${description}</td>
     <td>${amount}</td>
   `;
+
+  // Store all data in dataset (needed for modal)
+  row.dataset.date = date;
+  row.dataset.description = description;
+  row.dataset.amount = amount;
+  row.dataset.reference = reference;
+  row.dataset.status = status;
+
   row.style.cursor = 'pointer';
 
-  // Attach click handler to show full modal
+  // Attach click handler to read from dataset and show modal
   row.onclick = () => {
-    document.getElementById('detailDate').textContent = date;
-    document.getElementById('detailDescription').textContent = description;
-    document.getElementById('detailAmount').textContent = amount;
-    document.getElementById('detailReference').textContent = reference;
-    document.getElementById('detailStatus').textContent = status;
+    document.getElementById('detailDate').textContent = row.dataset.date;
+    document.getElementById('detailDescription').textContent = row.dataset.description;
+    document.getElementById('detailAmount').textContent = row.dataset.amount;
+    document.getElementById('detailReference').textContent = row.dataset.reference;
+    document.getElementById('detailStatus').textContent = row.dataset.status;
     openModal();
   };
-  }
+  }  
   
 function changePassword() {
   const oldP = document.getElementById('oldPassword').value;
