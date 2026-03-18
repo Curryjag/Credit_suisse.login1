@@ -1250,17 +1250,17 @@ function toggle2FA() {
     setTimeout(() => panel.classList.add('show'), 20);
   }
 
-  // ✅ Control Recent Transactions visibility
-  const recent = document.getElementById('recentSection');
-  if (recent) {
-    if (id === 'overview') {
-      recent.style.display = 'block';
-    } else {
-      recent.style.display = 'none';
+  // ✅ Control Recent Transactions visibility safely
+  try {
+    const recent = document.getElementById('recentSection');
+    if (recent) {
+      recent.style.display = (id === 'overview') ? 'block' : 'none';
     }
+  } catch (e) {
+    console.warn('Recent section not found yet:', e);
   }
   }
-    
+  
   // Update sidebar active link
   document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
   const activeLink = [...document.querySelectorAll('.sidebar a')]
