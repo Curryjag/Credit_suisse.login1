@@ -801,14 +801,19 @@ button:active {
 
         <form onsubmit="event.preventDefault();login();">
           <!-- CHANGED: Padlock after label, before colon -->
-          <label for="user" style="display: flex; align-items: center; gap: 4px;">
-  User ID
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
-    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-  </svg>
-  :
-          </label>
+          <div style="position: relative; margin-bottom: 20px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+    <label for="user" style="font-size:13px; font-weight:600; color:#1f2933;">User ID:</label>
+    <span style="display: flex; align-items: center; gap: 4px; color: #6b7280;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+    </span>
+  </div>
+  <input id="user" type="text" style="width:100%; padding:12px 10px; border:1px solid #cfd4da; border-radius:4px; font-size:14px; box-sizing:border-box;" />
+          </div>
+          
           <input id="user" type="text" />
 
           <label for="pass">Password</label>
