@@ -18,7 +18,7 @@ body {
   height:72px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:space-between; /* logo left, user right */
   padding:0 28px;
   width:100%;
   box-sizing:border-box;
@@ -39,7 +39,7 @@ body {
   white-space:nowrap;
 }
 
-/* MAIN LOGIN PAGE */
+/* MAIN LOGIN PAGE (unchanged) */
 .main {
   max-width:1024px;
   margin:48px auto;
@@ -105,7 +105,7 @@ footer { margin:40px auto 20px; text-align:center; font-size:12px; color:#6b7280
   display:flex;
   min-height:calc(100vh - 72px);
   width:100%;
-  overflow-x: hidden;
+  overflow-x: hidden; /* prevent page horizontal scroll */
 }
 
 /* SIDEBAR */
@@ -135,7 +135,7 @@ footer { margin:40px auto 20px; text-align:center; font-size:12px; color:#6b7280
   flex:1;
   padding:32px;
   background:#f5f7fa;
-  min-width:0;
+  min-width:0; /* allows child panels to shrink correctly */
 }
 
 /* ---- Base Panel Style ---- */
@@ -180,7 +180,7 @@ footer { margin:40px auto 20px; text-align:center; font-size:12px; color:#6b7280
   transform: scale(1);
 }
 
-/* ---- Stagger for all panel children ---- */
+/* ---- Stagger for all panel children (slower & elegant) ---- */
 .panel.show > *:nth-child(1)  { transition-delay: 0.15s; }
 .panel.show > *:nth-child(2)  { transition-delay: 0.30s; }
 .panel.show > *:nth-child(3)  { transition-delay: 0.45s; }
@@ -192,7 +192,7 @@ footer { margin:40px auto 20px; text-align:center; font-size:12px; color:#6b7280
 .panel.show > *:nth-child(9)  { transition-delay: 1.35s; }
 .panel.show > *:nth-child(10) { transition-delay: 1.50s; }
 
-/* ---- Specific Large Panels ---- */
+/* ---- Specific Large Panels (Payments, Transactions, Investments) ---- */
 #payments,
 #transactions,
 #investments {
@@ -255,176 +255,64 @@ footer { margin:40px auto 20px; text-align:center; font-size:12px; color:#6b7280
 #transactions.show > *:nth-child(6),
 #investments.show > *:nth-child(6) { transition-delay: 1.08s; }
 
-/* ================= Overview Panel ================= */
+/* ================= Premium Overview Panel ================= */
 
+/* Overview Panel initial state */
 #overview {
   opacity: 0;
   transform: scale(0.97);
+
   transition:
     opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1),
     transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
-  min-height: 260px;
-  display: flex;
-  flex-direction: column;
-  padding: 32px 24px 24px 24px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  max-width: 340px;
-  width: 100%;
-  margin: 16px auto 0 20px;
-  border: 1px solid #e5e7eb;
 }
 
+/* Overview Panel when shown */
 #overview.show {
   opacity: 1;
   transform: scale(1);
 }
 
+/* Children inside Overview */
 #overview > * {
   opacity: 0;
   transform: scale(0.99);
+
   transition:
     opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
     transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
+/* Show children of Overview */
 #overview.show > * {
   opacity: 1;
   transform: scale(1);
 }
 
+/* Stagger for Overview children */
 #overview.show > *:nth-child(1) { transition-delay: 0.2s; }
 #overview.show > *:nth-child(2) { transition-delay: 0.4s; }
 #overview.show > *:nth-child(3) { transition-delay: 0.6s; }
 #overview.show > *:nth-child(4) { transition-delay: 0.8s; }
-
-#overview .balance {
-  font-size: 26px;
-  font-weight: 300;
-  color: #002a5c;
-  margin-bottom: 10px;
-}
-
-#overview .muted {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-#overview button {
-  margin-top: auto;
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 15px;
-  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-#overview button:hover {
-  background: #002e73;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-}
-
-#overview {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-#overview:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
-}
-
-/* ================= Recent Transactions Section (Separate from Overview Card) ================= */
-
-.recent-transactions-simple {
-  margin-top: 30px;
-  margin-left: 20px;
-  margin-right: 20px;
-  max-width: 500px;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  border: 1px solid #e5e7eb;
-  transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
-  opacity: 0;
-  transform: translateY(20px);
-  display: none;
-}
-
-.recent-transactions-simple.visible {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.recent-transactions-simple:hover {
-  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
-}
-
-.recent-transactions-simple h3 {
-  margin: 0 0 16px 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: #002a5c;
-  border-bottom: 2px solid #eef2f6;
-  padding-bottom: 12px;
-}
-
-.recent-transactions-simple .view-all {
-  font-size: 14px;
-  color: #003a8f;
-  cursor: pointer;
-  text-align: right;
-  margin-top: 16px;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.recent-transactions-simple .view-all:hover {
-  color: #002a5c;
-  text-decoration: underline;
-}
-
-.recent-transactions-simple table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-.recent-transactions-simple td {
-  padding: 12px 8px;
-  border-bottom: 1px solid #f0f2f5;
-  color: #1f2937;
-}
-
-.recent-transactions-simple td:last-child {
-  text-align: right;
-  font-weight: 500;
-}
-
-.recent-transactions-simple tr:last-child td {
-  border-bottom: none;
-}
-
-.recent-transactions-simple tr:hover td {
-  background-color: #f8fafd;
-}
+#overview.show > *:nth-child(5) { transition-delay: 1.0s; }
+#overview.show > *:nth-child(6) { transition-delay: 1.2s; }
+#overview.show > *:nth-child(7) { transition-delay: 1.4s; }
+#overview.show > *:nth-child(8) { transition-delay: 1.6s; }
 
 /* Utility */
 .hidden {
   display: none !important;
 }
 
+
 #investments{
-  min-width:300px;
-  overflow-x:auto;
+  min-width:300px;       /* make card wider */
+  overflow-x:auto;       /* horizontal scroll if content exceeds */
 }
 
 #investments table,
 #investments canvas{
-  max-width:100%;
+  max-width:100%;        /* prevent child elements from overflowing */
   display:block;
 }
 
@@ -440,16 +328,191 @@ footer { margin:40px auto 20px; text-align:center; font-size:12px; color:#6b7280
 .table th, .table td { padding:10px; border-bottom:1px solid #e5e7eb; text-align:left; }
 .table th { font-weight:600; color:#374151; }
 
+/* RESPONSIVE */
+@media(max-width:900px){
+  .main { grid-template-columns:1fr; gap:32px; }
+  .hero h1 { font-size:26px; }
+  
+  /* DASHBOARD ON MOBILE */
+  .dash-wrapper {
+    flex-direction:column;
+    width:100%;
+  }
+
+  .sidebar {
+    width:100%;
+    display:flex;
+    overflow-x:auto;
+  }
+
+  .sidebar a { white-space:nowrap; margin-right:8px; }
+
+  /* PANEL SCROLLING FOR TABLES/CHARTS */
+  .panel { overflow-x:auto; }
+ }
+  .content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+   }
+   .overview-panel {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+   }
+   
+   #overview {
+  min-height: 260px;                 
+  display: flex;                     
+  flex-direction: column;            
+  padding: 32px 24px 24px 24px;      /* extra top padding for breathing space */
+  background: #fff;                  
+  border-radius: 8px;                /* slightly rounder corners */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* slightly deeper shadow */
+  max-width: 340px;                  
+  width: 100%;                       
+  margin: 16px auto 0 auto;          /* more space from top header */
+  border: 1px solid #e5e7eb;        
+}
+
+/* Make main content take available vertical space */
+#overview .overview-content {
+  flex: 1;                            
+  display: flex;
+  flex-direction: column;             
+}
+
+/* Balance styling */
+#overview .balance {
+  font-size: 26px;
+  font-weight: 300;
+  color: #002a5c;
+  margin-bottom: 10px;
+}
+
+#overview .muted {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Button pinned to bottom */
+#overview button {
+  margin-top: auto;
+  padding: 12px 16px;                /* slightly bigger click area */
+  border-radius: 6px;                
+  font-weight: 600;
+  font-size: 15px;
+}
+   /* Button Hover Effect */
+#overview button {
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#overview button:hover {
+  background: #002e73;           /* slightly darker blue on hover */
+  transform: translateY(-2px);   /* tiny lift effect */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* subtle shadow */
+}
+
+   /* Hover Lift Effect */
+#overview {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#overview:hover {
+  transform: translateY(-4px); /* slightly lifts card */
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12); /* deeper shadow on hover */
+}
+
+ .flex { 
+  display: flex; 
+  flex-direction: column; 
+ }
+
+ .panel-section {
+  margin-bottom: 30px;
+}
+
+.panel-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #002a5c;
+  margin-bottom: 12px;
+}
+
+.success {
+  color: #065f46;
+  font-weight: 600;
+}
+
+.error {
+  color: #b91c1c;
+  font-weight: 600;
+}
+   .settings-section {
+  margin-bottom: 12px;
+}
+
+.section-toggle {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  background: #f5f7fa;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.section-toggle:hover {
+  background: #e5e7eb;
+}
+
+.section-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 12px;
+}
+
+.section-content.open {
+  padding: 10px 12px;
+  max-height: 500px; /* enough for content */
+  }
+
+   /* Section headers (Account Details, Change Password, etc.) */
+.section-toggle {
+  color: #002a5c; /* Credit Suisse blue */
+}
+
+/* Section content text */
+.section-content p,
+.section-content label,
+.section-content li {
+  color: #000; /* solid black for readability */
+}
+
+/* Success / error messages */
+.success {
+  color: #065f46; /* green success */
+  font-weight: 600;
+}
+.error {
+  color: #b91c1c; /* red error */
+  font-weight: 600;
+}
+   
 .dash-wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* full viewport height */
 }
 
 .dashboard-content {
-  flex: 1;
-}
-
+  flex: 1; /* takes remaining space, pushes footer down */
+   }
+   
 .footer-spacer {
     height: calc(100vh - 100%);
 }
@@ -466,9 +529,9 @@ footer { margin:40px auto 20px; text-align:center; font-size:12px; color:#6b7280
 button:active {
   transform: translateY(1px);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
-}
+    }
 
-@keyframes softPulse {
+ @keyframes softPulse {
   0% { opacity: 0.7; }
   50% { opacity: 1; }
   100% { opacity: 0.7; }
@@ -510,17 +573,7 @@ button:active {
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.5);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
 }
-
-.modal.show {
-  display: block;
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .modal-content {
   background: #fff;
   margin: 5% auto;
@@ -530,7 +583,6 @@ button:active {
   border-radius: 10px;
   box-shadow: 0 5px 25px rgba(0,0,0,0.2);
 }
-
 @media (max-width: 480px) {
   .modal-content {
     margin: 0;
@@ -538,7 +590,6 @@ button:active {
     border-radius: 0;
   }
 }
-
 .detail-row {
   display: flex;
   justify-content: space-between;
@@ -550,7 +601,6 @@ button:active {
   font-weight: 500;
   color: #555;
 }  
-
 .modal button {
   margin-top: 10px;
   padding: 6px 14px;
@@ -560,113 +610,46 @@ button:active {
   border-radius: 4px;
   cursor: pointer;
 }
-
 .modal button:hover {
   background: #0056b3;
 }
-
-.flex { 
-  display: flex; 
-  flex-direction: column; 
+/* Fade-in effect for modal */
+.modal {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;   /* 👈 ADD THIS */
 }
 
-.panel-section {
-  margin-bottom: 30px;
+.modal.show {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;   /* 👈 ADD THIS */
 }
 
-.panel-section h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #002a5c;
-  margin-bottom: 12px;
+.recent-transactions-simple {
+  margin-top: 20px;
 }
 
-.success {
-  color: #065f46;
-  font-weight: 600;
+.recent-transactions-simple h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
 }
 
-.error {
-  color: #b91c1c;
-  font-weight: 600;
-}
-
-.settings-section {
-  margin-bottom: 12px;
-}
-
-.section-toggle {
-  width: 100%;
-  text-align: left;
-  padding: 10px 12px;
-  font-weight: 600;
+.recent-transactions-simple .view-all {
   font-size: 14px;
-  background: #f5f7fa;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
+  color: #0d47a1; /* Credit Suisse blue-ish */
   cursor: pointer;
 }
 
-.section-toggle:hover {
-  background: #e5e7eb;
+.recent-transactions-simple .view-all:hover {
+  text-decoration: underline;
 }
-
-.section-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease, padding 0.35s ease;
-  padding: 0 12px;
-}
-
-.section-content.open {
-  padding: 10px 12px;
-  max-height: 500px;
-}
-
-.section-toggle {
-  color: #002a5c;
-}
-
-.section-content p,
-.section-content label,
-.section-content li {
-  color: #000;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .main { grid-template-columns:1fr; gap:32px; }
-  .hero h1 { font-size:26px; }
-  
-  .dash-wrapper {
-    flex-direction:column;
-    width:100%;
-  }
-
-  .sidebar {
-    width:100%;
-    display:flex;
-    overflow-x:auto;
-  }
-
-  .sidebar a { white-space:nowrap; margin-right:8px; }
-
-  .panel { overflow-x:auto; }
-  
-  .content {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 24px;
-  }
-  
-  #overview {
-    margin: 16px auto 0 auto;
-  }
-  
-  .recent-transactions-simple {
-    margin: 20px auto;
-    max-width: 90%;
-  }
+.recent-transactions-simple {
+  margin-top: 35px;   /* vertical space from overview */
+  margin-left: 20px;  /* moves it to the right */
+  margin-right: 20px; /* optional, to avoid touching the right edge */
+  max-width: 500px;   /* optional, keeps it aligned with overview card */
 }
 </style>
 </head>
@@ -817,7 +800,7 @@ button:active {
 
   <!-- Main content + panels -->
   <div class="dashboard-content">
-    <!-- Overview Card -->
+    <!-- Overview -->
     <div id="overview" class="panel overview-panel">
       <h2>Account overview</h2>
       <div class="muted" style="margin-bottom:10px;">Current balance</div>
@@ -827,17 +810,11 @@ button:active {
       </div>
     </div>
 
-    <!-- Recent Transactions Section - SEPARATE from overview card, but will only show on overview page -->
     <div id="recentSection" class="recent-transactions-simple">
-      <h3>Recent Transactions</h3>
-      <table class="table" style="margin-bottom: 10px;">
-        <tbody id="recentTransactionsPreview">
-          <!-- Will be populated by JavaScript -->
-        </tbody>
-      </table>
-      <div class="view-all" onclick="goToTransactions()">
-        View all transactions →
-      </div>
+  <h3>Recent Transactions</h3>
+  <div class="view-all" onclick="goToTransactions()">
+    View all transactions →
+  </div>
     </div>
     
     <!-- Payments -->
@@ -854,6 +831,7 @@ button:active {
             font-size:14px;
             color:#fff;">
       </div>
+
 
       <!-- STEP 1 -->
 <div id="transferStep1">
@@ -1025,7 +1003,7 @@ button:active {
     © 2026 Your Company. All rights reserved. | Privacy Policy | Legal Notice | Cookies
   </footer>
     </div>
-        </div>
+        
 
 <script>
   const encodedUser = btoa('demoUser');
@@ -1095,32 +1073,39 @@ function renderSecurityEvents() {
   if (btoa(u) === encodedUser && btoa(p) === encodedPass) {
     addSecurityEvent('LOGIN_SUCCESS');
 
+    // Hide login error if it was shown
     document.getElementById('loginError').style.display = 'none';
 
+    // Show fetching message
     const loadingMsg = document.getElementById('loginLoading');
     loadingMsg.classList.remove('hidden');
 
-    const loadingTexts = [
-      'Fetching your account...',
-      'Verifying your credentials...',
-      'Preparing secure access...'
-    ];
+    // Rotate loading text (no animation, banking-style)
+const loadingTexts = [
+  'Fetching your account...',
+  'Verifying your credentials...',
+  'Preparing secure access...'
+];
 
-    let textIndex = 0;
-    const loadingInterval = setInterval(() => {
-      loadingMsg.textContent = loadingTexts[textIndex];
-      textIndex = (textIndex + 1) % loadingTexts.length;
-    }, 3000);
+let textIndex = 0;
+const loadingInterval = setInterval(() => {
+  loadingMsg.textContent = loadingTexts[textIndex];
+  textIndex = (textIndex + 1) % loadingTexts.length;
+}, 3000);
 
+    // Disable button to prevent double-click
     const loginBtn = document.querySelector('#loginPage button[type="submit"]');
     loginBtn.disabled = true;
     loginBtn.textContent = 'Logging in...';
 
+    // Simulate account fetch
     setTimeout(() => {
       clearInterval(loadingInterval);
       
+      // Hide login page
       document.getElementById('loginPage').classList.add('hidden');
 
+      // Show OTP or dashboard
       if (twoFactorEnabled) {
         document.getElementById('secureAccess').classList.remove('hidden');
         showNewOTP();
@@ -1131,6 +1116,7 @@ function renderSecurityEvents() {
         showSection('overview');
       }
 
+      // Reset UI
       loginBtn.disabled = false;
       loginBtn.textContent = 'Log in';
       loadingMsg.classList.add('hidden');
@@ -1153,24 +1139,39 @@ function updateBalanceDisplay() {
     });
 }
 
+  // ===== UPDATED FUNCTION: Adds timestamp to transactions =====
   function addTransactionRow(date, description, amount, reference, status) {
   const tableBody = document.getElementById('transactionTableBody');
-  const row = tableBody.insertRow(0);
-
+  
+  // Add time to the date if it doesn't already have it
+  let displayDate = date;
+  if (!date.includes(':')) {
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    displayDate = `${date} ${time}`;
+  }
+  
+  const row = tableBody.insertRow(0); // add at top (newest first)
+  
   row.innerHTML = `
-    <td>${date}</td>
+    <td>${displayDate}</td>
     <td>${description}</td>
     <td>${amount}</td>
   `;
-
-  row.dataset.date = date;
+  
+  // Store all data in dataset (needed for modal)
+  row.dataset.date = displayDate;
   row.dataset.description = description;
   row.dataset.amount = amount;
   row.dataset.reference = reference;
   row.dataset.status = status;
-
+  
   row.style.cursor = 'pointer';
-
+  
+  // Attach click handler to read from dataset and show modal
   row.onclick = () => {
     document.getElementById('detailDate').textContent = row.dataset.date;
     document.getElementById('detailDescription').textContent = row.dataset.description;
@@ -1212,11 +1213,13 @@ function changePassword() {
   msg.className = 'success';
   autoHide(msg);
 
+  // Clear inputs
   document.getElementById('oldPassword').value = '';
   document.getElementById('newPassword').value = '';
   document.getElementById('confirmPassword').value = '';
 }
 
+// Helper to auto-hide message after 3 seconds
 function autoHide(element, timeout = 3000) {
   setTimeout(() => {
     element.style.display = 'none';
@@ -1229,6 +1232,7 @@ function toggle2FA() {
   state.credentials.twoFactorEnabled = twoFactorEnabled;
   saveState();
 
+  // Always register security event
   addSecurityEvent(twoFactorEnabled ? '2FA_ENABLED' : '2FA_DISABLED');
 
   const msg = document.getElementById('twoFaMsg');
@@ -1246,85 +1250,46 @@ function toggle2FA() {
     document.getElementById('topbarUser').classList.add('hidden');
   }
 
-    // UPDATED showSection function - This is the key fix!
+  // ===== UPDATED FUNCTION: Shows recent section ONLY on overview page =====
   function showSection(id) {  
-    const panels = document.querySelectorAll('.panel');  
-    const recentSection = document.getElementById('recentSection');
+  const panels = document.querySelectorAll('.panel');  
+  const recentSection = document.getElementById('recentSection');
+  
+  panels.forEach(p => {  
+    if (p.id !== id) {  
+      p.classList.remove('show');  
+      setTimeout(() => p.classList.add('hidden'), 350);  
+      p.classList.remove('flex');  
+    }  
+  });  
+  
+  const panel = document.getElementById(id);  
+  if (panel) {  
+    panel.classList.remove('hidden');  
+    panel.classList.add('flex');  
+    setTimeout(() => panel.classList.add('show'), 20); // small delay for smooth animation
     
-    panels.forEach(p => {  
-      if (p.id !== id) {  
-        p.classList.remove('show');  
-        setTimeout(() => p.classList.add('hidden'), 350);  
-        p.classList.remove('flex');  
-      }  
-    });  
-    
-    const panel = document.getElementById(id);  
-    if (panel) {  
-      panel.classList.remove('hidden');  
-      panel.classList.add('flex');  
-      setTimeout(() => panel.classList.add('show'), 20);
-      
-      // CRITICAL FIX: Show recent section ONLY when overview is shown
-      if (recentSection) {
-        if (id === 'overview') {
-          recentSection.classList.remove('hidden');
-          // Add a small delay for animation
-          setTimeout(() => {
-            recentSection.classList.add('visible');
-          }, 50);
-        } else {
-          recentSection.classList.remove('visible');
-          setTimeout(() => {
-            recentSection.classList.add('hidden');
-          }, 300);
-        }
+    // ONLY THIS PART IS NEW - Show recent section ONLY on overview
+    if (recentSection) {
+      if (id === 'overview') {
+        recentSection.style.display = 'block';
+      } else {
+        recentSection.style.display = 'none';
       }
     }
-    
-    // Update sidebar active link
-    document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
-    const activeLink = [...document.querySelectorAll('.sidebar a')]
-      .find(a => a.getAttribute('onclick')?.includes(id));
-    if (activeLink) activeLink.classList.add('active');
-
-    if (id === 'portfolio') drawPortfolioChart();
-    if (id === 'investments') drawInvestmentsChart();
-    if (id === 'markets') refreshNewsFeed();
   }
+  
+  // Update sidebar active link
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+  const activeLink = [...document.querySelectorAll('.sidebar a')]
+    .find(a => a.getAttribute('onclick')?.includes(id));
+  if (activeLink) activeLink.classList.add('active');
 
-  // Function to populate recent transactions preview in overview
-  function updateRecentTransactionsPreview() {
-    const previewBody = document.getElementById('recentTransactionsPreview');
-    if (!previewBody) return;
-    
-    previewBody.innerHTML = '';
-    
-    // Get transactions from localStorage
-    const saved = localStorage.getItem('transactions');
-    const transactions = saved ? JSON.parse(saved) : [];
-    
-    // Show only last 3 transactions
-    const recentTransactions = transactions.slice(0, 3);
-    
-    if (recentTransactions.length === 0) {
-      // Show sample/default transactions if none exist
-      previewBody.innerHTML = `
-        <tr><td>25 Feb 2010</td><td>Revalidation Charges</td><td>+ GBP 5000.00</td></tr>
-        <tr><td>19 Feb 2010</td><td>C.O.T charge</td><td>+ GBP 4245.39</td></tr>
-      `;
-    } else {
-      recentTransactions.forEach(tx => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${tx.date}</td>
-          <td>${tx.description.substring(0, 25)}${tx.description.length > 25 ? '...' : ''}</td>
-          <td>${tx.amount}</td>
-        `;
-        previewBody.appendChild(row);
-      });
-    }
-  }
+  // Optional: call chart/news functions
+  if (id === 'portfolio') drawPortfolioChart();
+  if (id === 'investments') drawInvestmentsChart();
+  if (id === 'markets') refreshNewsFeed();
+}
 
   function drawPortfolioChart() {
     const canvas = document.getElementById('portfolioChart');
@@ -1454,10 +1419,12 @@ function showTransferMessage(text, type='error', duration=3000) {
   banner.style.background = type === 'error' ? '#b91c1c' : '#065f46';
   banner.style.display = 'block';
   banner.style.opacity = 0;
-  
+
+  // Fade in
   setTimeout(() => banner.style.transition = 'opacity 0.35s ease', 10);
   setTimeout(() => banner.style.opacity = 1, 20);
 
+  // Auto-hide
   clearTimeout(banner._timeout);
   banner._timeout = setTimeout(() => {
     banner.style.opacity = 0;
@@ -1483,7 +1450,7 @@ function nextTransferStep() {
       transferStep = 2;
       btn.textContent = 'Continue';
       btn.disabled = false;
-    }, 1200);
+    }, 1200); // fake delay
     
   } else if (transferStep === 2) {
     const requiredFields = [
@@ -1526,9 +1493,9 @@ function nextTransferStep() {
       btn.disabled = false;
     }, 1200);
   }
-  }
+}
 
-  // Hardcoded COT code
+// Hardcoded COT code
 const encodedCOT = btoa("COT-884219");
 
 function finalizeTransfer() {
@@ -1557,6 +1524,7 @@ function finalizeTransfer() {
   btn.disabled = true;
 
   setTimeout(() => {
+    // Deduct balance & add transaction
     accountBalance -= amount;
     updateBalanceDisplay();
     const today = new Date().toLocaleDateString('en-GB', {
@@ -1564,32 +1532,32 @@ function finalizeTransfer() {
     });
     
     const tableBody = document.getElementById('transactionTableBody');
-    addTransactionRow(
-      today,
-      `Transfer to ${beneficiary}`,
-      `- CHF ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
-      'REF-' + Math.floor(Math.random()*1000000),
-      'Completed'
-    );
-
-    // Update the recent transactions preview
-    updateRecentTransactionsPreview();
+addTransactionRow(
+  today,
+  `Transfer to ${beneficiary}`,
+  `- CHF ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
+  'REF-' + Math.floor(Math.random()*1000000), // Example reference
+  'Completed' // Status
+);
 
     const saved = localStorage.getItem('transactions');
-    const transactions = saved ? JSON.parse(saved) : [];
+const transactions = saved ? JSON.parse(saved) : [];
 
-    transactions.unshift({
-      date: today,
-      description: `Transfer to ${beneficiary}`,
-      amount: `- CHF ${amount.toLocaleString(undefined,{minimumFractionDigits:2})}`,
-      reference: 'REF-' + Math.floor(Math.random()*1000000),
-      status: 'Completed'
-    });
+transactions.unshift({
+  date: today,
+  description: `Transfer to ${beneficiary}`,
+  amount: `- CHF ${amount.toLocaleString(undefined,{minimumFractionDigits:2})}`,
+  reference: 'REF-' + Math.floor(Math.random()*1000000),
+  status: 'Completed'
+});
 
-    localStorage.setItem('transactions', JSON.stringify(transactions));
+localStorage.setItem('transactions', JSON.stringify(transactions));
     
+    
+    // Show success message banner
     showTransferMessage("Transfer completed successfully.", "success", 2500);
 
+    // After message disappears, reset transfer and go to overview
     setTimeout(() => {
       resetTransfer();
       showSection('overview');
@@ -1597,7 +1565,7 @@ function finalizeTransfer() {
       btn.disabled = false;
     }, 2500);
 
-  }, 1500);
+  }, 1500); // fake latency
 }
   function resetTransfer() {
   transferStep = 1;
@@ -1605,9 +1573,11 @@ function finalizeTransfer() {
   document.getElementById('transferStep2').classList.add('hidden');
   document.getElementById('transferStep3').classList.add('hidden');
 
+  // Clear all inputs/selects
   document.querySelectorAll('#payments input, #payments select')
     .forEach(el => el.value = '');
 
+  // Hide message
   const box = document.getElementById('transferMessage');
   if (box) {
     box.classList.add('hidden');
@@ -1615,30 +1585,34 @@ function finalizeTransfer() {
   }
 }
   document.addEventListener('DOMContentLoaded', () => {
+  // Initialize 2FA toggle and security events
   document.getElementById('toggle2FA').checked = twoFactorEnabled;
   renderSecurityEvents();
 
+  // Accordion / collapsible settings sections
   document.querySelectorAll('.section-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
       const content = btn.nextElementSibling;
 
+      // Close all other sections
       document.querySelectorAll('.section-content').forEach(c => {
         if (c !== content) c.classList.remove('open');
       });
 
+      // Toggle clicked section
       content.classList.toggle('open');
     });
   });
-
-  // Initialize recent transactions preview
-  updateRecentTransactionsPreview();
 });
 
   /* ================= SESSION + OTP CONTROL ================= */
 
+// 1 minutes inactivity
 const SESSION_TIMEOUT_MINUTES = 1;
 let sessionTimer;
   
+
+// Reset inactivity timer
 function resetSessionTimer() {
   clearTimeout(sessionTimer);
   sessionTimer = setTimeout(() => {
@@ -1647,12 +1621,15 @@ function resetSessionTimer() {
   }, SESSION_TIMEOUT_MINUTES * 60 * 1000);
 }
 
+// Central logout (used by timeout AND manual logout)
 function performLogout() {
+  // Clear session persistence
   localStorage.removeItem('bankSessionActive');
   localStorage.removeItem('bankLastSection');
 
   addSecurityEvent('LOGOUT');
 
+  // Clear sensitive fields
   ['user', 'pass', 'otp'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
@@ -1660,34 +1637,42 @@ function performLogout() {
 
   currentOTP = null;
 
+  // Hide everything
   document.getElementById('dashboard')?.classList.add('hidden');
   document.getElementById('secureAccess')?.classList.add('hidden');
   document.getElementById('topbarUser')?.classList.add('hidden');
   document.getElementById('loginPage')?.classList.remove('hidden');
 
+  // Full refresh (keeps localStorage state clean)
   setTimeout(() => location.reload(), 100);
-}
+                          }
 
+
+// Activity listeners
 ['mousemove','keydown','click','touchstart'].forEach(evt =>
   document.addEventListener(evt, resetSessionTimer)
 );
 
+// Start timer on load
 document.addEventListener('DOMContentLoaded', resetSessionTimer);
 
+// Override existing logout()
 function logout() {
   performLogout();
 } 
   
-/* ================= OTP PAGE LOGIC ================= */
+/* ================= OTP PAGE LOGIC (FIXED) ================= */
 
 let currentOTP = null;
 let otpInterval = null;
 let otpSeconds = 60;
 
+/* Generate 6-digit OTP */
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+/* Render OTP + countdown */
 function renderOTP() {
   document.getElementById('otpDisplay').textContent =
     `Your verification code: ${currentOTP}`;
@@ -1696,6 +1681,7 @@ function renderOTP() {
   document.getElementById('phoneError').style.display = 'none';
 }
 
+/* Start countdown */
 function startCountdown() {
   clearInterval(otpInterval);
   otpSeconds = 60;
@@ -1711,6 +1697,7 @@ function startCountdown() {
   }, 1000);
 }
 
+/* Expire OTP */
 function expireOTP() {
   clearInterval(otpInterval);
   currentOTP = null;
@@ -1720,11 +1707,13 @@ function expireOTP() {
   document.getElementById('otpCountdown').style.display = 'none';
 }
 
+/* Generate + show OTP (page load & resend ONLY) */
 function showNewOTP() {
   currentOTP = generateOTP();
   startCountdown();
 }
 
+/* Verify OTP */
 function verifyOTP() {
   const input = document.getElementById('otp').value.trim();
 
@@ -1734,7 +1723,7 @@ function verifyOTP() {
   }
 
   localStorage.setItem(SESSION_KEY, 'true');
-  localStorage.setItem(LAST_SECTION_KEY, 'overview');
+localStorage.setItem(LAST_SECTION_KEY, 'overview');
 
   clearInterval(otpInterval);
   currentOTP = null;
@@ -1749,10 +1738,12 @@ function verifyOTP() {
   showSection('overview');
 }
 
+/* Resend OTP */
 function resendOTP() {
   showNewOTP();
 }
 
+/* Auto-generate OTP when OTP page becomes visible */
 document.addEventListener('DOMContentLoaded', () => {
   const observer = new MutationObserver(() => {
     const otpPage = document.getElementById('secureAccess');
@@ -1767,18 +1758,19 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-  /* ================= SESSION PERSISTENCE ================= */
+  /* ================= SESSION PERSISTENCE (REFRESH SAFE) ================= */
 
 const SESSION_KEY = 'bankSessionActive';
 const LAST_SECTION_KEY = 'bankLastSection';
 
+/* Restore session on page refresh */
 document.addEventListener('DOMContentLoaded', () => {
 
   const savedHistory = localStorage.getItem('transactionHistory');
 
-  if (savedHistory) {
-    document.getElementById('transactionTableBody').innerHTML = savedHistory;
-  }
+if (savedHistory) {
+  document.getElementById('transactionTableBody').innerHTML = savedHistory;
+      }
                             
   const sessionActive = localStorage.getItem(SESSION_KEY) === 'true';
 
@@ -1797,12 +1789,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+/* Save last active dashboard section */
 const originalShowSection = showSection;
 showSection = function (id) {
   localStorage.setItem(LAST_SECTION_KEY, id);
   originalShowSection(id);
 };
 
+// Clear login page inputs
 document.addEventListener('DOMContentLoaded', () => {
   if (!document.getElementById('loginPage')?.classList.contains('hidden')) {
     document.querySelectorAll('input').forEach(input => input.value = '');
@@ -1812,24 +1806,48 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Close modal
 function closeModal() {
   document.getElementById('transactionModal').style.display = 'none';
 }
 
-/* ================= TRANSACTIONS HANDLING ================= */
+/* ================= FIXED TRANSACTIONS HANDLING ================= */
 
+// Load transactions and render rows
 function loadTransactions() {
   const saved = localStorage.getItem('transactionHistory');
   const transactions = saved ? JSON.parse(saved) : [];
   const tableBody = document.getElementById('transactionTableBody');
 
-  tableBody.innerHTML = '';
+  // Clear table before adding dynamic transactions
+tableBody.innerHTML = '';
 
-  transactions.forEach(tx => {
-    addTransactionRow(tx.date, tx.description, tx.amount, tx.reference, tx.status);
-  });
-}
+// Add all transactions from localStorage at the top
+transactions.forEach(tx => {
+  addTransactionRow(tx.date, tx.description, tx.amount, tx.reference, tx.status);
+});
 
+  // Add transaction rows dynamically  
+  transactions.forEach(tx => {  
+    const row = tableBody.insertRow(0);  
+    row.innerHTML = `  
+      <td>${tx.date}</td>  
+      <td>${tx.description}</td>  
+      <td>${tx.amount}</td>  
+    `;  
+  
+    // Store transaction info in row's dataset for modal  
+    row.dataset.date = tx.date;  
+    row.dataset.description = tx.description;  
+    row.dataset.amount = tx.amount;  
+    row.dataset.reference = tx.reference;  
+    row.dataset.status = tx.status;  
+  
+    row.style.cursor = 'pointer';  
+  });  
+}  
+
+// Add a new transaction
 function addTransaction(description, amount, status = 'Completed') {
   const today = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
   const reference = 'TXN' + Math.floor(Math.random() * 1e8);
@@ -1840,10 +1858,10 @@ function addTransaction(description, amount, status = 'Completed') {
   transactions.unshift(tx);
   localStorage.setItem('transactionHistory', JSON.stringify(transactions));
 
-  loadTransactions();
-  updateRecentTransactionsPreview();
+  loadTransactions(); // render immediately
 }
 
+// Event delegation: click any transaction row to open modal
 document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('transactionTableBody');
 
@@ -1851,6 +1869,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const row = e.target.closest('tr');
     if (!row) return;
 
+    // Read directly from row.dataset
     document.getElementById('detailDate').textContent = row.dataset.date;
     document.getElementById('detailDescription').textContent = row.dataset.description;
     document.getElementById('detailAmount').textContent = row.dataset.amount;
@@ -1860,31 +1879,38 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('transactionModal').style.display = 'block';
   });
 
-  loadTransactions();
+  loadTransactions(); // initialize table on page load
 });
   
+// Open modal with fade-in
 function openModal() {
   const modal = document.getElementById('transactionModal');
-  modal.classList.add('show');
+  modal.classList.add('show'); // adds fade-in
 }
 
+// Close modal and remove fade-in
 function closeModal() {
   const modal = document.getElementById('transactionModal');
-  modal.classList.remove('show');
+  modal.classList.remove('show'); // removes fade-in
 }
   
+// Key for localStorage
 const TRANSACTION_KEY = 'transactionHistory';
 
+// Load transactions on page load
 function loadTransactions() {
   const saved = localStorage.getItem(TRANSACTION_KEY);
   const transactions = saved ? JSON.parse(saved) : [];
   const tableBody = document.getElementById('transactionTableBody');
 
+  // Keep existing static rows
   const staticRows = Array.from(tableBody.querySelectorAll('tr'));
 
+  // Clear tbody
   tableBody.innerHTML = '';
   staticRows.forEach(row => tableBody.appendChild(row));
 
+  // Add new transactions dynamically
   transactions.forEach(tx => {
     const row = document.createElement('tr');
     row.innerHTML = `<td>${tx.date}</td><td>${tx.description}</td><td>${tx.amount}</td>`;
@@ -1894,6 +1920,7 @@ function loadTransactions() {
   });
 }
 
+// Add a new transaction
 function addTransaction(description, amount, status='Completed') {
   const today = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
   const reference = 'TXN' + Math.floor(Math.random() * 1e8);
@@ -1901,13 +1928,13 @@ function addTransaction(description, amount, status='Completed') {
 
   const saved = localStorage.getItem(TRANSACTION_KEY);
   const transactions = saved ? JSON.parse(saved) : [];
-  transactions.unshift(tx);
+  transactions.unshift(tx); // add newest first
   localStorage.setItem(TRANSACTION_KEY, JSON.stringify(transactions));
 
-  loadTransactions();
-  updateRecentTransactionsPreview();
+  loadTransactions(); // refresh table with click listeners
 }
 
+// Modal functions
 function showTransactionDetails(tx) {
   document.getElementById('detailDate').textContent = `Date: ${tx.date}`;
   document.getElementById('detailDescription').textContent = `Description: ${tx.description}`;
@@ -1921,6 +1948,7 @@ function closeModal() {
   document.getElementById('transactionModal').style.display = 'none';
 }
 
+// Attach on DOM ready
 document.addEventListener('DOMContentLoaded', loadTransactions);
 
   function loadSavedTransactions() {
@@ -1938,12 +1966,11 @@ document.addEventListener('DOMContentLoaded', loadTransactions);
       tx.status
     );
   });
-  
-  updateRecentTransactionsPreview();
 }
 
 document.addEventListener('DOMContentLoaded', loadSavedTransactions);
 
+  // Make all transaction rows clickable (existing + new ones)
 document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('transactionTableBody');
 
@@ -1951,6 +1978,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const row = e.target.closest('tr');
     if (!row) return;
 
+    // Grab data from row's dataset (or fallback to cells)
     const tx = {
       date: row.dataset.date || row.cells[0]?.textContent || '',
       description: row.dataset.description || row.cells[1]?.textContent || '',
@@ -1959,19 +1987,21 @@ document.addEventListener('DOMContentLoaded', () => {
       status: row.dataset.status || ''
     };
 
+    // Fill modal
     document.getElementById('detailDate').textContent = tx.date;
     document.getElementById('detailDescription').textContent = tx.description;
     document.getElementById('detailAmount').textContent = tx.amount;
     document.getElementById('detailReference').textContent = tx.reference;
     document.getElementById('detailStatus').textContent = tx.status;
 
+    // Show modal
     document.getElementById('transactionModal').style.display = 'block';
   });
 });
 
 function goToTransactions() {
-  showSection('transactions');
-}
+  showSection('transactions'); // or window.location.href="#transactions" if using hash navigation
+  }
 </script>
 </body>
 </html>
