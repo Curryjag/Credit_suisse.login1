@@ -1247,9 +1247,20 @@ function toggle2FA() {
   if (panel) {
     panel.classList.remove('hidden');
     panel.classList.add('flex');
-    setTimeout(() => panel.classList.add('show'), 20); // small delay for smooth animation
+    setTimeout(() => panel.classList.add('show'), 20);
   }
 
+  // ✅ Control Recent Transactions visibility
+  const recent = document.getElementById('recentSection');
+  if (recent) {
+    if (id === 'overview') {
+      recent.style.display = 'block';
+    } else {
+      recent.style.display = 'none';
+    }
+  }
+  }
+    
   // Update sidebar active link
   document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
   const activeLink = [...document.querySelectorAll('.sidebar a')]
