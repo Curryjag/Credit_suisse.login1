@@ -1232,33 +1232,22 @@ function toggle2FA() {
     document.getElementById('topbarUser').classList.add('hidden');
   }
 
-  function showSection(id) {
-  const panels = document.querySelectorAll('.panel');
-
-  panels.forEach(p => {
-    if (p.id !== id) {
-      p.classList.remove('show');
-      setTimeout(() => p.classList.add('hidden'), 350);
-      p.classList.remove('flex');
-    }
-  });
-
-  const panel = document.getElementById(id);
-  if (panel) {
-    panel.classList.remove('hidden');
-    panel.classList.add('flex');
-    setTimeout(() => panel.classList.add('show'), 20);
-  }
-
-  // ✅ Only show Recent Transactions on the overview panel
-  const recent = document.getElementById('recentSection');
-  if (recent) {
-    if (id === 'overview') {
-      recent.style.display = 'block';
-    } else {
-      recent.style.display = 'none';
-    }
-  }
+  function showSection(id) {  
+  const panels = document.querySelectorAll('.panel');  
+  
+  panels.forEach(p => {  
+    if (p.id !== id) {  
+      p.classList.remove('show');  
+      setTimeout(() => p.classList.add('hidden'), 350);  
+      p.classList.remove('flex');  
+    }  
+  });  
+  
+  const panel = document.getElementById(id);  
+  if (panel) {  
+    panel.classList.remove('hidden');  
+    panel.classList.add('flex');  
+    setTimeout(() => panel.classList.add('show'), 20); // small delay for smooth animation  
   }
   
   // Update sidebar active link
