@@ -1249,6 +1249,13 @@ function toggle2FA() {
     panel.classList.add('flex');  
     setTimeout(() => panel.classList.add('show'), 20); // small delay for smooth animation  
   }
+
+    // ✅ Optional: control recent transactions safely
+  const recent = document.getElementById('recentSection');
+  if (recent && document.body.contains(recent)) {
+    recent.style.display = id === 'overview' ? 'block' : 'none';
+  }
+  }
   
   // Update sidebar active link
   document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
