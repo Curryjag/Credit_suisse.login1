@@ -2180,11 +2180,12 @@ function checkPendingTransactions() {
     const transactions = JSON.parse(saved);
 
     transactions.sort((a, b) => {
-      if (a.timestamp && b.timestamp) {
-        return new Date(b.timestamp) - new Date(a.timestamp);
-      }
-      return 0;
-    });
+  if (a.timestamp && b.timestamp) {
+    return new Date(a.timestamp) - new Date(b.timestamp); // ascending
+  }
+  return 0;
+});
+    
 
     const tableBody = document.getElementById('transactionTableBody');
     
