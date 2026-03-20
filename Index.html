@@ -1402,35 +1402,38 @@ button:active {
     document.getElementById('deviceBlockModal').classList.remove('show');
   }
 
-  // Check pending transactions
-  function checkPendingTransactions() {
-    const saved = localStorage.getItem('transactions');
-    if (!saved) return;
-    
-    const transactions = JSON.parse(saved);
-    let changed = false;
-    const now = new Date().getTime();
-    
-    transactions.forEach(tx => {
-      if (tx.status === 'Pending' && tx.timestamp) {
-        const txTime = new Date(tx.timestamp).getTime();
-        const hoursDiff = (now - txTime) / (1000 * 60 * 60);
-        
-        if (hoursDiff >= 24) {
-          tx.status = 'Cancelled';
-          const amount = parseFloat(tx.amount.replace(/[^0-9.-]+/g, ''));
-          accountBalance += amount;
-          updateBalanceDisplay();
-          changed = true;
-        }
+  // Check pending transactions (test: 5 minutes)
+function checkPendingTransactions() {
+  const saved = localStorage.getItem('transactions');
+  if (!saved) return;
+  
+  const transactions = JSON.parse(saved);
+  let changed = false;
+  const now = new Date().getTime();
+  
+  // Use 5 minutes for testing (300,000 ms)
+  const TEST_MS = 5 * 60 * 1000;
+  
+  transactions.forEach(tx => {
+    if (tx.status === 'Pending' && tx.timestamp) {
+      const txTime = new Date(tx.timestamp).getTime();
+      const diffMs = now - txTime;
+      
+      if (diffMs >= TEST_MS) {
+        tx.status = 'Cancelled';
+        const amount = parseFloat(tx.amount.replace(/[^0-9.-]+/g, ''));
+        accountBalance += Math.abs(amount);   // FIX: add absolute value
+        updateBalanceDisplay();
+        changed = true;
       }
-    });
-    
-    if (changed) {
-      localStorage.setItem('transactions', JSON.stringify(transactions));
-      loadSavedTransactions();
     }
+  });
+  
+  if (changed) {
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+    loadSavedTransactions();
   }
+}  
 
   function addTransactionRow(date, description, amount, reference, status, timestamp) {
     const tableBody = document.getElementById('transactionTableBody');
