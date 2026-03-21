@@ -1402,6 +1402,18 @@ button:active {
     document.getElementById('deviceBlockModal').classList.remove('show');
   }
 
+  // Force settings text to black
+setTimeout(function() {
+  const settingsContents = document.querySelectorAll('#settings .section-content');
+  settingsContents.forEach(content => {
+    content.style.setProperty('color', '#000000', 'important');
+    const allChildren = content.querySelectorAll('*');
+    allChildren.forEach(child => {
+      child.style.setProperty('color', '#000000', 'important');
+    });
+  });
+}, 100);
+
   // Check pending transactions (test: 5 minutes)
 function checkPendingTransactions() {
   const saved = localStorage.getItem('transactions');
