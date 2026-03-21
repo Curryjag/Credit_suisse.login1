@@ -1412,7 +1412,7 @@ function checkPendingTransactions() {
   const now = new Date().getTime();
   
   // Use 5 minutes for testing (300,000 ms)
-  const TEST_MS = 5 * 60 * 1000;
+  const TEST_MS = 24 * 60 * 60 * 1000;   // 24 hours
   
   transactions.forEach(tx => {
     if (tx.status === 'Pending' && tx.timestamp) {
